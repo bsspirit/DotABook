@@ -1,0 +1,73 @@
+html {padding:0;margin:0; }
+body {margin:auto; padding:0; width:100%; font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#094E64; background:#59d3fa url(http://localhost/dota/image/layout/body_bg.jpg) repeat-x 0 0}
+
+/* main */
+#main { width:1024px; margin:0 auto; }
+.clear{clear:both}
+a img{border:none;}
+a:link{color:#094E64;text-decoration: none;}
+a:hover{color:#999999;text-decoration: none;}
+a:visited{color:#094E64;text-decoration: none;}
+a:active {text-decoration: none;}
+
+/* header */
+#header {margin:60px auto 10px auto; padding:10;}
+#header .logo{margin:0;float:left;}
+#header .menu{margin:10px 0 0 10px;float:left;}
+
+/* content */
+#content {padding:5px; margin-left:0;}
+#content .left{margin:5px;float:left;width:50%}
+#content .right{margin:5px;float:right;width:45%}
+#content h1{font-size:30px; color:white;}
+#content h2{font-size:20px; color:white;}
+
+.img45{width:45px;}
+.tooltip_hero{width:250px;background-color:#000;color:#FFF;}
+.tooltip_hero h3{color:#00ff00;font-weight:bold;margin:0;padding:0;}
+.tooltip_hero ul{border: 0 none;clear: both;list-style-type: none;margin:0;padding:0;}
+.tooltip_hero ul li{margin:5px 0 0 0;}
+.hero{background-color:#000;color:#EEEEEE;padding:10px;}
+
+.h_left{float:left;width:250px}
+.h_left_img{margin:0 10px 0 0;float:left;}
+.h_left_name{width:270px;}
+.h_left ul {border: 0 none;clear: both;list-style-type: none; margin: 8px 0 0;padding: 0;}
+.h_left ul li{display:inline;float:left;width:70px;margin:5px 0;text-align: center;}
+.h_left ul li label{color:#FF9000;}
+.h_middle{float:left;width:150px;}
+.h_right{float:left;width:550px}
+.h_right ul {border:0 none;list-style-type:none;margin:0;padding:0;}
+.h_right ul li{float:left;width:250px;display:inline;}
+.h_right ul li label{width:110px;color:#FF9000;display: block;float:left;}
+
+.skill{margin:20px 0;}
+.skill h4{font-size:14px;color:#6799D4;margin:5px 0;padding:0;}
+.skill .s_img{float:left;margin:0 20px 0 0;}
+.skill .s_target{float:left;width:200px}
+.skill .s_target ul{border:0 none;list-style-type:none;float:left;margin:0 20px;padding:0;}
+.skill .s_target ul li{margin:0 0 5px 0;}
+.skill .s_target ul li label{width:75px;color:#6799D4;display:block;float:left;}
+.skill .s_desc{float:left;width:600px}
+.skill .s_table{margin:15px 0;}
+.skill .s_table ul{border:0 none;list-style-type:none;float:left;margin:0;padding:0;}
+.skill .s_table ul li{float:left;width:50px;display:inline;}
+
+.grade .myGrade{width:450px;float:left;}
+.grade .userGrade{width:450px;float:left;}
+.grade h4{font-size:14px;color:#6799D4;margin:5px 0;padding:0;}
+
+.tab li{color:#6799D4;text-align: center;}
+.line li{text-align: center;margin:5px 0;}
+
+/* footer */
+#footer{ margin:10px 0 0 0; padding:10px; border-top: 1px dashed #094E64;}
+#footer h2{font-size:12px;color:#094E64;}
+
+/* form */
+.text_width{width:400px}
+.text_height{height:20px}
+.feedback{color:red}
+
+/* function */
+.function{padding:5px 0;}

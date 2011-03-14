@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}DotA Book|英雄列表{% endblock %}
+{% block head %}
+<script src="http://localhost/dota/js/jquery.qtip-1.0.0-rc3.min.js" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#heroes .img45').each(function(){
+				var hid = $(this).attr("value");
+				$(this).qtip({
+					content: {
+						url:'/rest/hero/html/'+hid,
+					},
+					style: {
+						name: 'dark',
+						border: { 
+							width: 1
+						},
+						width:252
+					}
+				});
+			});
+		})
+	</script>
+	
+	<h3>英雄列表</h3>
+	<div id="heroes">
+	{% for hero in heroes %}
+		<a href="/heroes/{{ hero.name }}"><img value="{{hero.id}}" class="img45" src="http://localhost/dota/image/portrait/45/{{images[hero.id].image45}}"/></a>
+	{% endfor %}
+	</div>
+	
+	<h3>物品列表</h3>
+	<div class="items">
+	{% for hero in heroes %}
+		<a href="/heroes/{{ hero.name }}"><img class="img45" src="http://localhost/dota/image/portrait/45/{{images[hero.id].image45}}"/></a>
+	{% endfor %}
+	</div>
+	
+{% endblock%}
