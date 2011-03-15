@@ -59,25 +59,26 @@ def hero_all_html(hid):
 		li_agility = "<span style=\'color:red;\'>敏捷:</span>"
 	else:
 		li_agility = "<span style=\'color:blue;\'>敏捷:</span>"
-	li_agility += str(attr.agility) + "+" + str(attr.agility)
+	li_agility += str(attr.agility) + "+" + str(attr.goup_agility)
 	
 	li_intelligence = ''
 	if attr.basic == 'I':
 		li_intelligence = "<span style=\'color:red;\'>智力:</span>"
 	else:
 		li_intelligence = "<span style=\'color:blue;\'>智力:</span>"
-	li_intelligence += str(attr.intelligence) + "+" + str(attr.intelligence)
+	li_intelligence += str(attr.intelligence) + "+" + str(attr.goup_intelligence)
 	
-	content = """<div class='tooltip_hero'>
-					<h3>%s - %s</h3>
-					<p>%s</p>
-					<ul>
-						<li>%s</li>
-						<li>%s</li>
-						<li>%s</li>
-					</ul>
-					<br/>可以学习：%s，%s，%s和<span style=\'color: #FF9000;\'>%s</span>
-					<br/><br/>移动速度%s，射程%s
-				</div>""" % (hero.namecn, hero.name, hero.description, li_strength, li_agility, li_intelligence, skills[0].namecn, skills[1].namecn, skills[2].namecn, skills[3].namecn, attr.move_speed, attr.attack_range)
+	content  = "<div class='tooltip_hero'>"
+	content += "<h3>"+hero.namecn.encode('utf8')+" - "+hero.name.encode('utf8')+"</h3>"
+	content += "<p>"+hero.description.encode('utf8')+"</p>"
+	content += "<ul>"
+	content += "<li>"+li_strength+"</li>"
+	content += "<li>"+li_agility+"</li>"
+	content += "<li>"+li_intelligence+"</li>"
+	content += "</ul>"
+	content += "<br/>可以学习："+skills[0].namecn.encode('utf8')+"，"+skills[1].namecn.encode('utf8')+"，"+skills[2].namecn.encode('utf8')+"和<span style=\'color: #FF9000;\'>"+skills[3].namecn.encode('utf8')+"</span>"
+	content += "<br/><br/>移动速度"+str(attr.move_speed)+"，射程"+str(attr.attack_range)
+	content += "</div>"
+
 	return content
 

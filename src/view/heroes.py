@@ -48,7 +48,16 @@ def hero_grade(hid):
 				if my.catalog == 'assist':my.score = request.form['assist'] 
 				db.session.merge(my)
 			db.session.commit()
-			api.sendTweet('@%s 给DOTA英雄 %s 打分，gank:%s分，push:%s分，dps:%s分，辅助:%s分，肉盾:%s分，' % (session['screen'], hero.namecn, request.form['gank'], request.form['push'], request.form['dps'], request.form['assist'], request.form['defend']))
+			tweet  = "@"+session['screen'].encode('utf8')
+			tweet += " 给DOTA英雄 "+hero.namecn.encode('utf8')+" 打分，"
+			tweet += "gank:"+request.form['gank'].encode('utf8')+"分，"
+			tweet += "push:"+request.form['push'].encode('utf8')+"分，"
+			tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
+			tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
+			tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
+			
+#			print tweet
+			api.sendTweet(tweet)
 
 		else: 
 			if int(request.form['gank']) != 0 and int(request.form['push']) != 0 and int(request.form['dps']) != 0 and int(request.form['assist']) != 0 and int(request.form['defend']) != 0:
@@ -59,7 +68,16 @@ def hero_grade(hid):
 				db.session.add(Grade(uid, hid, request.form['defend'], 'defend')) 
 				db.session.commit()
 				
-				api.sendTweet('@%s 给DOTA英雄 %s 打分，gank:%s分，push:%s分，dps:%s分，辅助:%s分，肉盾:%s分，' % (session['screen'], hero.namecn, request.form['gank'], request.form['push'], request.form['dps'], request.form['assist'], request.form['defend']))
+				tweet  = "@"+session['screen'].encode('utf8')
+				tweet += " 给DOTA英雄 "+hero.namecn.encode('utf8')+" 打分，"
+				tweet += "gank:"+request.form['gank'].encode('utf8')+"分，"
+				tweet += "push:"+request.form['push'].encode('utf8')+"分，"
+				tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
+				tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
+				tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
+	
+#				print tweet
+				api.sendTweet(tweet)
 	
 	myGrades = Grade.query.filter(Grade.hid == hid).filter(Grade.uid == uid).all()
 	userGrades = Grade.query.filter(Grade.hid == hid).all()

@@ -1,7 +1,8 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///D:/gae-python/dota/db/dota.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/conan/workspace/app/DotABook/db/dota.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
 
 db = SQLAlchemy(app)
 
