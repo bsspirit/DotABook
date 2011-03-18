@@ -10,7 +10,7 @@ class Version(db.Model):
 	__tablename__ = 't_dota_version'
 	id = db.Column(db.Integer, primary_key=True)
 	version = db.Column(db.String(16), unique=True)
-	description = db.Column(db.Text(2048))
+	description = db.Column(db.Text)
 	
 	def __init__(self, version, description , id=0):
 		if id != 0: self.id = id
@@ -26,7 +26,7 @@ class Hero(db.Model):
 	vid = db.Column(db.Integer)
 	name = db.Column(db.String(64))
 	namecn = db.Column(db.String(64))
-	description = db.Column(db.Text(2048))
+	description = db.Column(db.Text)
 	
 	def __init__(self, vid, name, namecn, description, id=0):
 		if id != 0: self.id = id
@@ -126,8 +126,8 @@ class Hero_Skill(db.Model):
 	ability = db.Column(db.String(16))
 	target = db.Column(db.String(16))
 	image = db.Column(db.String(128))
-	description = db.Column(db.String(2048))
-	note = db.Column(db.String(2048))
+	description = db.Column(db.Text(2048))
+	note = db.Column(db.Text(2048))
 	
 	def __init__(self, hid, name, namecn, hotkey, ability, target, image, note, description, id=0):
 		if id != 0: self.id = id
@@ -175,6 +175,79 @@ class Hero_Skill_Level(db.Model):
 	
 	def __repr__(self):
 		return '%s(%s): %s' % (self.sid, self.level, self.effect)
+		
+class Item(db.Model):
+	__tablename__ = 't_dota_item'
+	id = db.Column(db.Integer, primary_key=True)
+	vid = db.Column(db.Integer)
+	name = db.Column(db.String(64))
+	namecn = db.Column(db.String(64))
+	picture = db.Column(db.String(512))
+	price = db.Column(db.Integer)
+	shop = db.Column(db.String(64))
+	category = db.Column(db.String(16))
+	description = db.Column(db.Text(2048))
+	info = db.Column(db.Text(2048))
+	
+	def __init__(self,vid, name,namecn, picture, price, shop, category, description,info, id=0):
+		if id != 0: self.id = id
+		self.vid = vid
+		self.name = name
+		self.namecn = namecn
+		self.picture = picture
+		self.price = price
+		self.shop=shop
+		self.description = description
+		self.info = info
+		self.category = category #(reel:r,composite:c,atom:a)
+		
+	def __repr__(self):
+		return '%s(%s): %s,%s' % (self.namecn, self.name, self.price, self.description)
+		
+class Item_Compound(db.Model):
+	__tablename__ = 't_dota_item_compound'
+	id = db.Column(db.Integer, primary_key=True)
+	iid_1 = db.Column(db.Integer)
+	iid_2 = db.Column(db.Integer)
+	
+	def __init__(self, iid1, iid2):
+		self.iid_1=iid1
+		self.iid_2=iid2
+		
+	def __repr__(self):
+		return '%s - %s' % (self.iid_1, self.iid_2)
+	
+class Item_Skill(db.Model):
+	__tablename__='t_dota_item_skill'
+	id = db.Column(db.Integer,primary_key=True)
+	iid = db.Column(db.Integer)
+	name = db.Column(db.String(64))
+	namecn = db.Column(db.String(64))
+	ability = db.Column(db.String(16))
+	mana_cost = db.Column(db.Integer)
+	cooldown = db.Column(db.Integer)
+	duration = db.Column(db.String(64))
+	casting_range = db.Column(db.Integer)
+	area = db.Column(db.Integer)
+	description = db.Column(db.Text)
+	note = db.Column(db.Text)
+	
+	
+	def __init__(self,iid, name, namecn, ability, mana_cost, cooldown, casting_range, area, duration, description,note):
+		self.iid = iid
+		self.name = name
+		self.namecn = namecn
+		self.ability = ability
+		self.mana_cost = mana_cost
+		self.cooldown = cooldown
+		self.duration = duration
+		self.casting_range = casting_range
+		self.area=area
+		self.description = description
+		self.note=note
+		
+	def __repr__(self):
+		return '%s(%s): %s' % (self.namecn, self.name, self.description)
 	
 class User(db.Model):
 	__tablename__ = 't_user'

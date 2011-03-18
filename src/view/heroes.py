@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Module, render_template, request, jsonify, session, redirect
-from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade
+from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item
 from sina.sinaAPI import sinaAPI
 
 view = Module(__name__)
@@ -8,10 +8,11 @@ view = Module(__name__)
 @view.route('/')
 def heroes():
 	heroes = Hero.query.all()
+	items = Item.query.filter(Item.category!='R').all()
 	h_images = {}
 	for hero in heroes:
 		h_images[hero.id] = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
-	return render_template('hero/heroes.html', heroes=heroes, images=h_images)
+	return render_template('hero/heroes.html', heroes=heroes, images=h_images, items=items)
 
 @view.route('/<name>')
 def hero(name):
@@ -55,8 +56,6 @@ def hero_grade(hid):
 			tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
 			tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
 			tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
-			
-#			print tweet
 			api.sendTweet(tweet)
 
 		else: 
@@ -75,8 +74,6 @@ def hero_grade(hid):
 				tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
 				tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
 				tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
-	
-#				print tweet
 				api.sendTweet(tweet)
 	
 	myGrades = Grade.query.filter(Grade.hid == hid).filter(Grade.uid == uid).all()
