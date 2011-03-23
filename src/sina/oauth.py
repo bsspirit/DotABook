@@ -11,6 +11,7 @@ class WebOAuthHandler():
 		self.back_url = current_app.config['SERVER_PATH']+'oauth/callback'
 		self.oauth = OAuthHandler(consumer_key, consumer_secret)
 	def get_authorizate_url(self):
+		print self.back_url
 		return self.oauth.get_authorization_url() + '&oauth_callback=' + self.back_url
 
 @view.route('/')
@@ -42,7 +43,7 @@ def oauth_callback():
 		db.session.merge(db_user)
 	db.session.commit()
 
-	backurl = 'http://localhost:5000/'
+	backurl = current_app.config['SERVER_PATH']
 	if session.get('backurl', None) != None:
 		backurl = session['backurl']
 
