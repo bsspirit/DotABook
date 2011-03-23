@@ -12,5 +12,5 @@ def contact():
 	return render_template('contact.html',STATIC=current_app.config['STATIC_PATH'])
 	
 @view.route('/about')
-def contact():
+def about():
 	return render_template('about.html',STATIC=current_app.config['STATIC_PATH'])

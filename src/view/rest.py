@@ -128,7 +128,7 @@ def item_html_all():
 			coms = Item_Compound.query.filter(Item_Compound.iid_1==item.id).all()
 			for com in coms:
 				sub = items_map["id"+str(com.iid_2)]
-				content += "<li>"+ "<img class='img20' src='"+current_app.config['STATIC_PATH']+"dota/image/items/38/"+sub.picture.encode('utf8')+"'/>"+sub.namecn.encode('utf8')
+				content += "<li>"+ "<img class='img20' src='"+current_app.config['STATIC_PATH']+"image/items/38/"+sub.picture.encode('utf8')+"'/>"+sub.namecn.encode('utf8')
 				content +=" <span class='price'>"+str(sub.price)+"</span>"
 			content += "</ul>"	
 			

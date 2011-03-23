@@ -3,8 +3,9 @@ from flask import Flask
 from view import heroes, items, rest, nav, maps
 from sina import oauth
 
-SERVER_PATH='http://localhost:5000/'
-STATIC_PATH='http://localhost/'
+SERVER_PATH='http://dotabook.info/'
+STATIC_PATH='http://dotabook.info/static/'
+
 
 app = Flask(__name__)
 app.debug = True
