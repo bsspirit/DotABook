@@ -8,7 +8,7 @@ view = Module(__name__)
 
 class WebOAuthHandler(): 
 	def __init__(self):
-		self.back_url = 'http://localhost:5000/oauth/callback'
+		self.back_url = current_app.config['SERVER_PATH']+'oauth/callback'
 		self.oauth = OAuthHandler(consumer_key, consumer_secret)
 	def get_authorizate_url(self):
 		return self.oauth.get_authorization_url() + '&oauth_callback=' + self.back_url
