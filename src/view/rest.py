@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Module
+from flask import Module, current_app
 from db.create import Hero, Hero_Attr, Hero_Image, Hero_Skill
 from db.create import Item, Item_Compound, Item_Skill
 
@@ -7,6 +7,7 @@ view = Module(__name__)
 
 @view.route('/hero/<hid>')
 def hero_all_json(hid):
+	#current_app.config['SERVER_PATH']
 	hero = Hero.query.filter(Hero.id == hid).first()
 	attr = Hero_Attr.query.filter(Hero_Attr.hid == hid).first()
 	skills = Hero_Skill.query.filter(Hero_Skill.hid == hid).all()
@@ -127,7 +128,7 @@ def item_html_all():
 			coms = Item_Compound.query.filter(Item_Compound.iid_1==item.id).all()
 			for com in coms:
 				sub = items_map["id"+str(com.iid_2)]
-				content += "<li>"+ "<img class='img20' src='http://localhost/dota/image/items/38/"+sub.picture.encode('utf8')+"'/>"+sub.namecn.encode('utf8')
+				content += "<li>"+ "<img class='img20' src='"+current_app.config['STATIC_PATH']+"dota/image/items/38/"+sub.picture.encode('utf8')+"'/>"+sub.namecn.encode('utf8')
 				content +=" <span class='price'>"+str(sub.price)+"</span>"
 			content += "</ul>"	
 			

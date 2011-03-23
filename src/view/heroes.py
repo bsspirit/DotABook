@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Module, render_template, request, jsonify, session, redirect
+from flask import Module, render_template, request, jsonify, session, redirect, current_app
 from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item
 from sina.sinaAPI import sinaAPI
 
@@ -8,16 +8,15 @@ view = Module(__name__)
 @view.route('/')
 def heroes():
 	heroes = Hero.query.all()
-	items = Item.query.filter(Item.category!='R').all()
 	h_images = {}
 	for hero in heroes:
 		h_images[hero.id] = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
-	return render_template('hero/heroes.html', heroes=heroes, images=h_images, items=items)
+	return render_template('hero/heroes.html', heroes=heroes, images=h_images, STATIC=current_app.config['STATIC_PATH'])
 
 @view.route('/<name>')
 def hero(name):
 	if session.get('uid', None) == None:
-		return redirect('http://localhost:5000/oauth/?backurl=' + request.url)
+		return redirect(current_app.config['SERVER_PATH']+'oauth/?backurl=' + request.url)
 	
 	hero = Hero.query.filter(Hero.name == name).first() 
 	image = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
@@ -29,7 +28,7 @@ def hero(name):
 		level = Hero_Skill_Level.query.filter(Hero_Skill_Level.sid == skill.id).all()
 		levels[skill.id] = level 
 		
-	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image)
+	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
 
 
 @view.route('/grade/<hid>', methods=['GET', 'POST'])

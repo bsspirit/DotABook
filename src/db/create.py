@@ -288,6 +288,26 @@ class Grade(db.Model):
 		
 	def __repr__(self):
 		return '%s:%s,%s,%s' % (self.hid, self.score, self.catalog, self.uid)
+		
+class Map(db.Model):
+	__tablename__ = 't_dota_map'
+	id = db.Column(db.Integer, primary_key=True)
+	version = db.Column(db.String(64), unique=True)
+	namecn = db.Column(db.String(64), unique=True)
+	description = db.Column(db.Text(2048))
+	filename = db.Column(db.String(512))
+	category = db.Column(db.String(16))
+	url = db.Column(db.String(512))
+	
+	def __init__(self, version, namecn, category, filename, desc):
+		self.version = version
+		self.namecn = namecn
+		self.category = category
+		self.description = desc
+		self.filename = filename
+	
+	def __repr__(self):
+		return '%s: %s, %s' % (self.namecn, self.version, self.filename) 
 	
 class Config(db.Model):
 	__tablename__ = 't_dota_config'
