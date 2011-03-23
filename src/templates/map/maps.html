@@ -17,25 +17,23 @@
 	<div class="maps">
 		<ul class="tab">
 			<li style="width: 200px;">地图</li>
-			<li style="width: 80px;">版本</li>
-			<li style="width: 80px;">类型</li>
-			<li style="width: 80px;">中文版下载</li>
-			<li style="width: 80px;">英文版下载</li>
-			<li style="width: 200px;">描述</li>
+			<li style="width: 120px;">版本</li>
+			<li style="width: 120px;">类型</li>
+			<li style="width: 120px;">地图下载</li>
+			<li style="width: 400px;">描述</li>
 		</ul>
 		{% for map in maps %}
 		<ul class="line">
 			<li style="width: 200px;">{{map.namecn}}</li>
-			<li style="width: 80px;">{{map.version}}</li>
-			<li style="width: 80px;">
+			<li style="width: 120px;">{{map.version}}</li>
+			<li style="width: 120px;">
 				{% if map.category =='N' %} 正式版本
 				{% elif map.category == 'AI'%} AI版本
 				{% elif map.category == 'IMBA'%} IMBA版本
 				{% endif %}
 			</li>
-			<li style="width: 80px;"><a href="{{STATIC}}download/maps/{{map.filename}}">本站下载</a></li>
-			<li style="width: 80px;"><a href="http://www.getdota.com/">官方下载</a></li>
-			<li style="width: 200px;">{{map.description}}</li>
+			<li style="width: 120px;"><a href="{{map.url}}">下载</a></li>
+			<li style="width: 400px;">{{map.description}}</li>
 		</ul>
 		{% endfor %}
 	</div>

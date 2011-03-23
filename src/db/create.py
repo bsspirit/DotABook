@@ -300,12 +300,13 @@ class Map(db.Model):
 	category = db.Column(db.String(16))
 	url = db.Column(db.String(512))
 	
-	def __init__(self, version, namecn, category, filename, desc):
+	def __init__(self, version, namecn, category, filename, url, desc):
 		self.version = version
 		self.namecn = namecn
 		self.category = category
 		self.description = desc
 		self.filename = filename
+		self.url = url
 	
 	def __repr__(self):
 		return '%s: %s, %s' % (self.namecn, self.version, self.filename) 
