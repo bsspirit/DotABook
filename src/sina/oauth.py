@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Module, session, request, redirect
+from flask import Module, session, request, redirect, current_app
 from weibopy.auth import OAuthHandler
 from sinaAPI import sinaAPI, consumer_key, consumer_secret
 from db.create import User, db
