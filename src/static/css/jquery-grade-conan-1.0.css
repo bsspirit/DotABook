@@ -1,8 +1,0 @@
-a img{border:0;}
-
-.grade ul{border: 0 none;clear: both;list-style-type: none;margin:0;padding:0;}
-.rating{font-size:18px;clear:both;height:30px;}
-.rating .title{float:left;width:100px;vertical-align: middle;line-height:30px;}
-.rating .rate{float:left;width:200px;}
-.rating .score{float:left;vertical-align: middle;line-height:30px;}
-.rating .rate .star{width:25px;margin:2px;}
