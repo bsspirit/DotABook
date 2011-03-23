@@ -5,7 +5,7 @@ view = Module(__name__)
 
 @view.route('/')
 def index():
-	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'])
+	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'], SERVER=current_app.config['SERVER_PATH'])
 
 @view.route('/contact')
 def contact():
