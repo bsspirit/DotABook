@@ -8,7 +8,7 @@ from sina import oauth
 
 
 SERVER_PATH='http://localhost/'
-STATIC_PATH='http://localhost/static/'
+STATIC_PATH='http://1.dotabook.sinaapp.com/static/'
 
 
 app = Flask(__name__)
