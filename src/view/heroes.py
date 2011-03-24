@@ -30,12 +30,19 @@ def hero(name):
 		
 	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
 
+@view.route('/grade_send_tweet',methods=['POST'])
+def hero_grade_sendTweet():
+	tweet = session.get('grade_tweet')
+	api = sinaAPI(session['token'].key, session['token'].secret)
+	if tweet != None:
+		api.sendTweet(tweet)
+	session.pop('grade_tweet',None)
+	return ''
+	
 
 @view.route('/grade/<hid>', methods=['GET', 'POST'])
 def hero_grade(hid):
-	api = sinaAPI(session['token'].key, session['token'].secret)
 	uid = session['uid']
-	
 	if request.method == 'POST':
 		hero = Hero.query.filter(Hero.id == hid).first()
 		myGrades = Grade.query.filter(Grade.hid == hid).filter(Grade.uid == uid).all()
@@ -54,8 +61,8 @@ def hero_grade(hid):
 			tweet += "push:"+request.form['push'].encode('utf8')+"分，"
 			tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
 			tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
-			tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
-			api.sendTweet(tweet)
+			tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."		
+			session['grade_tweet'] = tweet+'http://dotabook.info'
 
 		else: 
 			if int(request.form['gank']) != 0 and int(request.form['push']) != 0 and int(request.form['dps']) != 0 and int(request.form['assist']) != 0 and int(request.form['defend']) != 0:
@@ -73,7 +80,7 @@ def hero_grade(hid):
 				tweet += "dps:"+request.form['dps'].encode('utf8')+"分，"
 				tweet += "辅助:"+request.form['assist'].encode('utf8')+"分，"
 				tweet += "肉盾:"+request.form['defend'].encode('utf8')+"分."
-				api.sendTweet(tweet)
+				session['grade_tweet'] = tweet+'http://dotabook.info'
 	
 	myGrades = Grade.query.filter(Grade.hid == hid).filter(Grade.uid == uid).all()
 	userGrades = Grade.query.filter(Grade.hid == hid).all()
@@ -103,4 +110,4 @@ def hero_grade(hid):
 		userObj['assist'] /= (size / 5)
 		userObj['count'] = (size / 5)
 	
-	return jsonify(my=myObj, user=userObj) 
+	return jsonify(my=myObj, user=userObj, tweet=session.get('grade_tweet')) 
