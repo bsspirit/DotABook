@@ -1,10 +1,18 @@
 {% extends "layout.html" %}
 {% block title %}DotA Book|关于本站{% endblock %}
 {% block content %}
-<h3>关于本站</h3>
-<p>DotA Book是一个DOTA的资料库，记录一些DOTA(<span style="color:red">6.71b</span>)英雄及物品装备的资料。</p>
-由个人开发，准备做成新浪微博的应用程序。<br/>
+	<h3>关于本站</h3>
+	<p>DotA Book是一个DOTA的资料库，记录一些DOTA(<span style="color:red">6.71b</span>)英雄及物品装备的资料。</p>
+	由个人开发，准备做成新浪微博的应用程序。<br/>
 
-<p>目前处于测试阶段，有很多不完善的地方，请大给我留言@Conan_Z！我每天都会进步的！</p>
+	<p>目前处于测试阶段，有很多不完善的地方，请大给我留言@Conan_Z！我每天都会进步的！</p>
 
+	<div class="upgrade">
+		<h3>每日更新 --  {{upgrade.today}}</h3>
+		<ul>
+			{% for up in upgrade.up %}
+			<li>{{up.title}}</li>
+			{% endfor %}
+		</ul>
+	</div>
 {% endblock%}

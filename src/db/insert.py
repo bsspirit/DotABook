@@ -7,6 +7,7 @@ from insert_hero import insert as hero
 from insert_hero_skill import insert as hero_skill
 from insert_hero_skill_level import insert as hero_skill_level
 from insert_config import insert as config
+from insert_upgrade import insert as upgrade
 
 
 if __name__ == '__main__':
@@ -17,5 +18,6 @@ if __name__ == '__main__':
 	item(db)
 	map(db)
 	config(db)
+	upgrade(db)
 	db.session.commit()
 

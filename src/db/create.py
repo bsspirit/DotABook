@@ -1,5 +1,7 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
+import datetime
+
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/conan/workspace/app/DotABook/db/dota.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
@@ -323,7 +325,23 @@ class Config(db.Model):
 	
 	def __repr__(self):
 		return '%s: %s' % (self.key, self.value) 
+		
 
+class Upgrade(db.Model):
+	__tablename__ = 't_upgrade'
+	id = db.Column(db.Integer, primary_key=True)
+	datetime = db.Column(db.DateTime, default=datetime.datetime.now())
+	datetag = db.Column(db.Integer)
+	title = db.Column(db.String(16))
+	description = db.Column(db.String(256))
+	
+	def __init__(self, datetag, title, desc):
+		self.datetag = datetag
+		self.title = title
+		self.description = desc
+	
+	def __repr__(self):
+		return '%s: %s' % (self.datetag, self.title) 
 
 if __name__ == '__main__':
 	db.drop_all()

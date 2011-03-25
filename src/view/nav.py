@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Module, render_template, session, redirect, url_for, current_app
+from db.create import Upgrade
+import util.mydate as mydate
 
 view = Module(__name__)
 
@@ -13,4 +15,6 @@ def contact():
 	
 @view.route('/about')
 def about():
-	return render_template('about.html',STATIC=current_app.config['STATIC_PATH'])
+	upgrade = {'today':mydate.toString2(mydate.yesterday()).decode('utf8')}
+	upgrade['up'] = Upgrade.query.filter(Upgrade.datetag==mydate.toInt(mydate.yesterday())).all()
+	return render_template('about.html',STATIC=current_app.config['STATIC_PATH'],upgrade=upgrade)
