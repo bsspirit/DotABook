@@ -1,0 +1,227 @@
+{% extends "layout.html" %}
+{% block title %}DotABook|{{hero.namecn}}{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-grade-conan-1.0.css"></link>
+<link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-ui-1.8.11.custom.css"></link>
+<script src="{{STATIC}}js/jquery-grade-conan-1.0.js" type="text/javascript"></script>
+<script src="{{STATIC}}js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+	<script type="text/javascript">
+		var hid = {{hero.id}};
+		
+		$(document).ready(function(){
+			$('#tabs').tabs();
+		});
+	</script>
+
+	<div class="hero">
+		<div class="h_left">
+			<div class="h_left_img">
+				<img width="64" src="{{STATIC}}image/portrait/64/{{image.image64}}"/>
+			</div>
+			<div class="h_left_name">
+				<h3>{{hero.namecn}}</h3>{{hero.name}}
+			</div>
+			<ul>
+				<li>
+					<label>力量</label><br/>
+					{% if attr.basic == 'S' %}
+						<img width="47" src="{{STATIC}}image/basic/strength_2.jpg"/>
+					{% else %}
+						<img width="47" src="{{STATIC}}image/basic/strength_1.jpg"/>
+					{% endif%}
+					<br/>
+					<span>{{attr.strength}}(+{{attr.goup_strength}})</span>
+				</li>
+				<li>
+					<label>敏捷</label><br/>
+					{% if attr.basic == 'A' %}
+						<img width="47" src="{{STATIC}}image/basic/agility_2.jpg"/>
+					{% else %}
+						<img width="47" src="{{STATIC}}image/basic/agility_1.jpg"/>
+					{% endif%}
+					<br/>
+					<span>{{attr.agility}}(+{{attr.goup_agility}})</span>				
+				</li>
+				<li>
+					<label>智力</label><br/>
+					{% if attr.basic == 'I' %}
+						<img width="47" src="{{STATIC}}image/basic/intelligence_2.jpg"/>
+					{% else %}
+						<img width="47" src="{{STATIC}}image/basic/intelligence_1.jpg"/>
+					{% endif%}
+					<br/>
+					<span>{{attr.intelligence}}(+{{attr.goup_intelligence}})</span>	
+				</li>
+			</ul>
+		</div>
+		<div class="h_middle">
+			<img width="120" src="{{STATIC}}image/portrait/comic/{{image.comic}}"/>
+		</div>
+		<div class="h_right">
+			<h3>基本属性</h3>
+			<ul>
+				<li><label>HP:</label>{{attr.hp}}</li>
+				<li><label>MP:</label>{{attr.mp}}</li>
+			    <li><label>攻击:</label>{{attr.damage}}</li>
+			    <li><label>防御:</label>{{attr.armor}}</li>
+			    <li><label>攻速:</label>{{attr.attack_time}}</li>
+			    <li><label>射程:</label>{{attr.attack_range}}</li>
+			    <li><label>移动速度:</label>{{attr.move_speed}}</li>
+			    <li><label>视野(日/夜):</label>{{attr.sight_range}}</li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+		
+		
+		
+		<div class="desc">
+			<h3>英雄介绍 </h3>
+			{{hero.description}}
+		</div>
+		
+		<div class="grade">
+			<h3>英雄评分</h3>
+			<div class="myGrade">
+				<h4>我的评分</h4>
+				<ul>
+					<li class="rating">
+						<div class="title">Gank:</div>
+						<div name="gank" class="rate"></div>
+					</li>
+					<li class="rating">
+						<div class="title">Push:</div>
+						<div name="push" class="rate"></div>
+					</li>
+					<li class="rating">
+						<div class="title">DPS:</div>
+						<div name="dps" class="rate"></div>
+					</li>
+					<li class="rating">
+						<div class="title">辅助:</div>
+						<div name="assist" class="rate"></div>
+					</li>
+					<li class="rating">
+						<div class="title">肉盾:</div>
+						<div name="defend" class="rate"></div>
+					</li>
+				</ul>
+			</div>
+			<div class="userGrade">
+				<h4>网友评分(<em>1</em>人)</h4>
+				<ul>
+					<li class="rating readonly">
+						<div class="title">Gank:</div>
+						<div name="gank" class="rate"></div>
+					</li>
+					<li class="rating readonly">
+						<div class="title">Push:</div>
+						<div name="push" class="rate"></div>
+					</li>
+					<li class="rating readonly">
+						<div class="title">DPS:</div>
+						<div name="dps" class="rate"></div>
+					</li>
+					<li class="rating readonly">
+						<div class="title">辅助:</div>
+						<div name="assist" class="rate"></div>
+					</li>
+					<li class="rating readonly">
+						<div class="title">肉盾:</div>
+						<div name="defend" class="rate"></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<input id="grade-submit" type="submit" value="提交评分"/>
+		</div>
+		
+		<div class="skills">
+			<h3>英雄技能</h3>
+			{% for skill in skills %}
+			<div class="skill">
+				<h4>{{skill.namecn}}</h4>
+				<div class="s_img">
+					<img width="64" src="{{STATIC}}image/skill/{{skill.image}}"/>
+				</div>
+				<div class="s_target">
+					<ul>
+						<li><label>快捷键:</label>{{skill.hotkey}}</li>
+						<li>
+							<label>技能类型:</label>
+							{% if skill.ability == 'A' %}主动技能{% endif%}
+							{% if skill.ability == 'P' %}被动技能{% endif%}
+							{% if skill.ability == 'T' %}开关技能{% endif%}
+						</li>
+						<li>
+							<label>施法目标:</label>
+							{% if skill.target =='U' %}单位{% endif%}
+							{% if skill.target =='P' %}点{% endif%}
+							{% if skill.target =='A' %}区域{% endif%}
+							{% if skill.target =='I' %}即时{% endif%}
+							{% if skill.target =='G' %}地面{% endif%}
+							{% if skill.target =='N' %}N/A{% endif%}
+						</li>
+					</ul>
+				</div>
+				<div class="s_desc">
+					{{skill.description}}
+				</div>
+				<div class="clear"></div>
+				<div class="s_table">
+					<ul class="tab">
+						<li style="width: 40px;">等级</li>
+					    <li style="width: 60px;">魔法消耗</li>
+					    <li style="width: 90px;">冷却时间</li>
+					    <li style="width: 80px;">使用距离</li>
+					    <li style="width: 110px;">攻击范围</li>
+					    <li style="width: 90px;">持续时间</li>
+					    <li style="width: 150px;">受影响目标</li>
+					    <li style="width: 300px;">影响</li>
+					</ul>
+					{% for level in levels[skill.id] %}
+					<ul class="line">
+						<li style="width: 40px;">{{level.level}}</li>
+						<li style="width: 60px;">
+							{% if level.mana_cost ==0 %}N/A{% else %}{{level.mana_cost}}{% endif%}
+						</li>
+						<li style="width: 90px;">
+							{% if level.cooldown ==0 %}N/A{% else %}{{level.cooldown}}s{% endif%}
+						</li>
+						<li style="width: 80px;">
+							{% if level.casting_range == 0 %}N/A{% else %}{{level.casting_range}}{% endif%}
+						</li>
+						<li style="width: 110px;">
+							{% if level.area ==0 %}N/A{% else %}{{level.area}}{% endif%}
+						</li>
+						<li style="width: 90px;">
+							{% if level.duration =='N' %}N/A{% else %}{{level.duration}}{% endif%}
+						</li>
+						<li style="width: 150px;">
+							{% if level.target =='N' %}N/A
+							{% elif level.target=='S' %}自己
+							{% elif level.target=='H' %}英雄
+							{% elif level.target=='U' %}单位
+							{% elif level.target=='EU' %}敌方单位
+							{% elif level.target=='EH' %}敌方英雄
+							{% elif level.target=='AU' %}友方单位
+							{% elif level.target=='AH' %}友方英雄
+							{% elif level.target=='AU/S' %}友方单位/自己
+							{% elif level.target=='EU/S' %}敌方单位/自己
+							{% else %}{{level.target}}
+							{% endif%}
+						</li>
+						<li style="width: 300px;">
+							{% if level.effect ==0 %}N/A{% else %}{{level.effect}}{% endif%}
+						</li>
+					</ul>
+					{% endfor %}
+				</div>
+				<div class="clear"></div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock%}
