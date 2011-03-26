@@ -7,7 +7,7 @@ from sina import oauth
 #STATIC_PATH='http://dotabook.info/static/'
 
 
-SERVER_PATH='http://localhost/'
+SERVER_PATH='http://localhost:5000/'
 STATIC_PATH='http://localhost/static/'
 #STATIC_PATH='http://1.dotabook.sinaapp.com/static/'
 

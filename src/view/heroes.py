@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import Module, render_template, request, jsonify, session, redirect, current_app
-from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item
+from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item, Msg
 from sina.sinaAPI import sinaAPI
+import util.mydate as mydate
 
 view = Module(__name__)
 
@@ -29,6 +30,19 @@ def hero(name):
 		levels[skill.id] = level 
 		
 	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
+	
+@view.route('/msg/<hid>',methods=['POST','GET'])
+def hero_msgs(hid):
+	page = int(request.args.get('p','1'))
+	count = 5
+	msgs_page = Msg.query.filter(Msg.hid==hid).order_by(Msg.id.desc()).paginate(page,count)
+	
+	objs = []
+	for msg in msgs_page.items:
+		obj = {'hid':msg.hid,'uid':msg.uid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
+		objs.append(obj)
+	return jsonify(msgs=objs,count=count,total=msgs_page.total)
+
 
 @view.route('/grade_send_tweet',methods=['POST'])
 def hero_grade_sendTweet():

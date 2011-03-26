@@ -3,18 +3,17 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-grade-conan-1.0.css"></link>
 <link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-ui-1.8.11.custom.css"></link>
-<script src="{{STATIC}}js/jquery-grade-conan-1.0.js" type="text/javascript"></script>
 <script src="{{STATIC}}js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+<script src="{{STATIC}}js/jquery-grade-conan-1.0.js" type="text/javascript"></script>
+<script src="{{STATIC}}js/jquery-msg-conan-1.0.js" type="text/javascript"></script>
+
 {% endblock %}
 
 {% block content %}
 	<script type="text/javascript">
 		var hid = {{hero.id}};
-		
-		$(document).ready(function(){
-			$('#tabs').tabs();
-		});
 	</script>
+	<div id="log"></div>
 
 	<div class="hero">
 		<div class="h_left">
@@ -76,9 +75,10 @@
 		<div class="clear"></div>
 		<div id="tabs">
 			<ul>
-				<li><a href="#tabs-1">英雄评分</a></li>
-				<li><a href="#tabs-2">英雄介绍</a></li>
-				<li><a href="#tabs-3">英雄技能</a></li>
+				<li><a href="#tabs-1">玩家评分</a></li>
+				<li><a href="#tabs-2">玩家留言</a></li>
+				<li><a href="#tabs-3">英雄介绍</a></li>
+				<li><a href="#tabs-4">英雄技能</a></li>
 			</ul>
 			
 			<div id="tabs-1" class="grade">
@@ -136,9 +136,16 @@
 				<p>&nbsp;</p>
 				<p><a class="btn1" href="#" id="grade-submit">提交评分</a></p>
 			</div>
-			
-			<div id="tabs-2">{{hero.description}}</div>
-			<div id="tabs-3">
+			<div id="tabs-2">
+				<textarea title="发表评论" rows="4" class="area">发表评论</textarea>
+				<p><a class="btn1" href="#" id="msg-submit">发表评论</a></p>
+				<p>&nbsp;</p>
+				<hr/>
+				<div class="msgs"></div>
+				<div class="clear"></div>
+			</div>
+			<div id="tabs-3">{{hero.description}}</div>
+			<div id="tabs-4">
 				{% for skill in skills %}
 					<div class="skill">
 						<h4>{{skill.namecn}}</h4>

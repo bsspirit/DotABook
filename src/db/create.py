@@ -261,6 +261,7 @@ class User(db.Model):
 	source = db.Column(db.String(32))
 	token_key = db.Column(db.String(64))
 	token_secret = db.Column(db.String(64))
+	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
 	
 	def __init__(self, uid, username, nickname, source, token_key, token_secret, id=0):
 		if id != 0: self.id = id
@@ -281,6 +282,7 @@ class Grade(db.Model):
 	hid = db.Column(db.Integer)
 	score = db.Column(db.Float)
 	catalog = db.Column(db.String(32))#dps,pull,gank,assist,defend
+	create_date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 	
 	def __init__(self, uid, hid, score, catalog, id=0):
 		if id != 0: self.id = id
@@ -326,14 +328,51 @@ class Config(db.Model):
 	def __repr__(self):
 		return '%s: %s' % (self.key, self.value) 
 		
+class Msg(db.Model):
+	__tablename__ = 't_msg'
+	id = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.BigInteger)
+	hid = db.Column(db.Integer)
+	floor = db.Column(db.Integer)
+	content = db.Column(db.String(512))
+	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	
+	def __init__(self, uid, hid, floor, content):
+		self.uid = uid
+		self.hid = hid
+		self.floor = floor
+		self.content = content
+	
+	def __repr__(self):
+		return '%s(%s): %s' % (self.uid, self.hid, self.content) 
+
+class Msg_Operate(db.Model):
+	__tablename__ = 't_msg_operate'
+	id = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.BigInteger)
+	mid = db.Column(db.Integer)
+	action = db.Column(db.String(16))#repost,comment,up,down
+	content = db.Column(db.String(512))
+	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	
+	def __init__(self, uid, mid, action, content=None):
+		self.uid = uid
+		self.mid = mid
+		self.action = action
+		if content != None:self.content = content
+	
+	def __repr__(self):
+		return '%s(%s): %s' % (self.uid, self.mid, self.action) 
+	
+		
 
 class Upgrade(db.Model):
 	__tablename__ = 't_upgrade'
 	id = db.Column(db.Integer, primary_key=True)
-	datetime = db.Column(db.DateTime, default=datetime.datetime.now())
 	datetag = db.Column(db.Integer)
 	title = db.Column(db.String(16))
 	description = db.Column(db.String(256))
+	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
 	
 	def __init__(self, datetag, title, desc):
 		self.datetag = datetag
