@@ -52,11 +52,15 @@ def hero_msgs(hid):
 			api.sendTweet(tweet)
 	
 	page = int(request.args.get('p','1'))
-	count = 5
+	count = 10
 	msgs_page = Msg.query.filter(Msg.hid==hid).order_by(Msg.id.desc()).paginate(page,count)	
 	objs = []
 	for msg in msgs_page.items:
-		obj = {'hid':msg.hid,'uid':msg.uid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
+		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
+		obj['uid'] = msg.uid
+		obj['screen'] = session['user'].screen_name.encode('utf8')
+		obj['profile_image'] = session['user'].profile_image_url
+		
 		objs.append(obj)
 	return jsonify(msgs=objs,count=count,total=msgs_page.total, page=page)
 

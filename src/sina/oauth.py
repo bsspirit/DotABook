@@ -33,6 +33,7 @@ def oauth_callback():
 	api = sinaAPI(session['token'].key, session['token'].secret)
 	user = api.getUser_byScreen(o.get_username())
 	session['uid'] = user.id
+	session['user'] = user
 	
 	db_user = User.query.filter(User.uid==user.id).first()
 	if db_user == None:
