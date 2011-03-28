@@ -24,6 +24,7 @@
 		<div class="clear"></div>
 		
 		<div id="content">
+		<p id='test'>@Conan_Z</p>
 			{% block content %}
 				Replace this
 			{% endblock %}
@@ -52,7 +53,8 @@
 			WB.client.init(cfg);
 	
 			//user card widget
-			WB.widget.atWhere.searchAndAt(document.getElementById("content"));
+			var ele = document.getElementById("test");
+			WB.widget.atWhere.searchAndAt(ele);
 		});
 	</script>
 </html>
