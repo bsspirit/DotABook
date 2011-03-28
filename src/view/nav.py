@@ -19,6 +19,6 @@ def about():
 	upgrade['up'] = Upgrade.query.filter(Upgrade.datetag==mydate.toInt(mydate.yesterday())).all()
 	return render_template('about.html',STATIC=current_app.config['STATIC_PATH'],upgrade=upgrade)
 	
-@view.route('/xd.html')
+@view.route('/html/xd.html')
 def xd():
 	return render_template('xd.html')
