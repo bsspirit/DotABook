@@ -24,7 +24,6 @@
 		<div class="clear"></div>
 		
 		<div id="content">
-		<p id='test'>@Conan_Z</p>
 			{% block content %}
 				Replace this
 			{% endblock %}
@@ -42,19 +41,4 @@
 		</div>
 	</div>
 	</body>
-	
-	<script type="text/javascript">
-		WB.core.load(['connect', 'client', 'widget.base', 'widget.atWhere'], function() {
-			var cfg = {
-				key: '2967452232',
-				xdpath: 'http://dotabook.info/html/xd.html）'
-			};
-			WB.connect.init(cfg);
-			WB.client.init(cfg);
-	
-			//user card widget
-			var ele = document.getElementById("test");
-			WB.widget.atWhere.searchAndAt(ele);
-		});
-	</script>
 </html>
