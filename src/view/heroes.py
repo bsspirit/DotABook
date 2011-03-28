@@ -33,15 +33,32 @@ def hero(name):
 	
 @view.route('/msg/<hid>',methods=['POST','GET'])
 def hero_msgs(hid):
+	uid = session['uid']
+	if request.method=='POST':
+		content = request.form['content']
+		msgs_page = Msg.query.filter(Msg.hid==hid).all();
+		floor = len(msgs_page)+1
+		db.session.add(Msg(uid, hid,floor, content))
+		db.session.commit()
+		
+		if(request.form['send_sina']=='true'):
+			hero = Hero.query.filter(Hero.id == hid).first()
+			tweet  = "@"+session['screen'].encode('utf8')
+			tweet += " 对DOTA英雄 "+hero.namecn.encode('utf8')+" 评论："
+			tweet += content.encode('utf8')
+			tweet += " http://dotabook.info"
+			
+			api = sinaAPI(session['token'].key, session['token'].secret)
+			api.sendTweet(tweet)
+	
 	page = int(request.args.get('p','1'))
 	count = 5
-	msgs_page = Msg.query.filter(Msg.hid==hid).order_by(Msg.id.desc()).paginate(page,count)
-	
+	msgs_page = Msg.query.filter(Msg.hid==hid).order_by(Msg.id.desc()).paginate(page,count)	
 	objs = []
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'uid':msg.uid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		objs.append(obj)
-	return jsonify(msgs=objs,count=count,total=msgs_page.total)
+	return jsonify(msgs=objs,count=count,total=msgs_page.total, page=page)
 
 
 @view.route('/grade_send_tweet',methods=['POST'])
