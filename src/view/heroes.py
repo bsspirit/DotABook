@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Module, render_template, request, jsonify, session, redirect, current_app
-from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item, Msg
+from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item, Msg, Msg_Operate
 from sina.sinaAPI import sinaAPI
 import util.mydate as mydate
 
@@ -36,8 +36,7 @@ def hero_msgs(hid):
 	uid = session['uid']
 	if request.method=='POST':
 		content = request.form['content']
-		msgs_page = Msg.query.filter(Msg.hid==hid).all();
-		floor = len(msgs_page)+1
+		floor = Msg.query.filter(Msg.hid==hid).count()+1;
 		db.session.add(Msg(uid, hid,floor, content))
 		db.session.commit()
 		
@@ -54,15 +53,57 @@ def hero_msgs(hid):
 	page = int(request.args.get('p','1'))
 	count = 10
 	msgs_page = Msg.query.filter(Msg.hid==hid).order_by(Msg.id.desc()).paginate(page,count)	
+	
 	objs = []
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		obj['uid'] = msg.uid
 		obj['screen'] = session['user'].screen_name.encode('utf8')
 		obj['profile_image'] = session['user'].profile_image_url
-		
+
+		ops = Msg_Operate.query.filter(Msg_Operate.mid==msg.id).all()
+		ms_count = {'up':0,'down':0,'repost':0,'comment':0}
+		for op in ops:
+			if op.action=='up':ms_count['up']+=1
+			elif op.action=='down':ms_count['down']+=1
+			elif op.action=='repost':ms_count['repost']+=1
+			elif op.action=='comment':ms_count['comment']+=1
+			
+		obj['count']=ms_count	
 		objs.append(obj)
 	return jsonify(msgs=objs,count=count,total=msgs_page.total, page=page)
+
+
+@view.route('/msg/up/<int:mid>',methods=['GET','POST'])
+def hero_msg_up(mid):
+	submit = False
+	if (request.method=='POST'):
+		uid = session['uid']
+		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='up').count()
+		if op == 0:	
+			db.session.add(Msg_Operate(uid,mid,'up'))
+			db.session.commit()
+		else :
+			submit = True
+	
+	size = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.action=='up').count()
+	return jsonify(mid=mid,size=size,submit=submit)
+	
+@view.route('/msg/down/<int:mid>',methods=['GET','POST'])
+def hero_msg_down(mid):
+	submit = False
+	if (request.method=='POST'):
+		uid = session['uid']
+		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='up').count()
+		if op == 0:
+			db.session.add(Msg_Operate(uid,mid,'down'))
+			db.session.commit()
+		else:
+			submit=True
+	
+	size = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.action=='down').count()
+	return jsonify(mid=mid,size=size,submit=submit)
+
 
 
 @view.route('/grade_send_tweet',methods=['POST'])
