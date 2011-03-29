@@ -37,8 +37,8 @@ def oauth_callback():
 	if db_user == None:
 		db.session.add(User(user.id, user.name, user.screen, 'sina', session['token'].key, session['token'].secret))
 	else:
-		db_user.name = user.name
-		db_user.screen = user.screen
+		db_user.username = user.name
+		db_user.nickname = user.screen
 		db.session.merge(db_user)
 	db.session.commit()
 
