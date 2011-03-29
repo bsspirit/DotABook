@@ -3,7 +3,6 @@ from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/conan/workspace/app/DotABook/db/dota.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
 
 
@@ -362,9 +361,7 @@ class Msg_Operate(db.Model):
 		if content != None:self.content = content
 	
 	def __repr__(self):
-		return '%s(%s): %s' % (self.uid, self.mid, self.action) 
-	
-		
+		return '%s(%s): %s' % (self.uid, self.mid, self.action) 		
 
 class Upgrade(db.Model):
 	__tablename__ = 't_upgrade'
@@ -380,7 +377,7 @@ class Upgrade(db.Model):
 		self.description = desc
 	
 	def __repr__(self):
-		return '%s: %s' % (self.datetag, self.title) 
+		return '%s: %s' % (self.datetag, self.title)
 
 if __name__ == '__main__':
 	db.drop_all()

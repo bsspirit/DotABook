@@ -30,6 +30,9 @@ def oauth_callback():
 	
 	api = sinaAPI(session['token'].key, session['token'].secret)
 	user = api.getUser_byScreen(o.get_username())
+	
+	flash(user)
+	
 	session['uid'] = user.id
 	session['screen'] = user.screen_name
 	

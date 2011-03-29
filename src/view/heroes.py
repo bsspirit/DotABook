@@ -97,7 +97,7 @@ def hero_msg_down(mid):
 	submit = False
 	if (request.method=='POST'):
 		uid = session['uid']
-		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='up').count()
+		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='down').count()
 		if op == 0:
 			db.session.add(Msg_Operate(uid,mid,'down'))
 			db.session.commit()
