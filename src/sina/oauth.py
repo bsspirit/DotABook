@@ -30,18 +30,20 @@ def oauth_callback():
 	
 	api = sinaAPI(session['token'].key, session['token'].secret)
 	user = api.getUser_byScreen(o.get_username())
+	session['user'] = user
+	session['login'] = True
 	
-	flash(user)
-	
-	session['uid'] = user.id
-	session['screen'] = user.screen_name
+	tmp = ''
+	for a in session:
+		tmp += a+':'+str(session[a])+"\n"
+	current_app.logger.info(tmp)
 	
 	db_user = User.query.filter(User.uid==user.id).first()
 	if db_user == None:
-		db.session.add(User(user.id, user.name, user.screen_name, 'sina', session['token'].key, session['token'].secret))
+		db.session.add(User(user.id, user.name, user.screen, 'sina', session['token'].key, session['token'].secret))
 	else:
 		db_user.name = user.name
-		db_user.screen_name = user.screen_name
+		db_user.screen = user.screen
 		db.session.merge(db_user)
 	db.session.commit()
 

@@ -255,18 +255,18 @@ class User(db.Model):
 	__tablename__ = 't_user'
 	id = db.Column(db.Integer, primary_key=True)
 	uid = db.Column(db.BigInteger, unique=True)
-	username = db.Column(db.String(64))
+	screen = db.Column(db.String(64))
 	nickname = db.Column(db.String(64))
 	source = db.Column(db.String(32))
 	token_key = db.Column(db.String(64))
 	token_secret = db.Column(db.String(64))
 	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
 	
-	def __init__(self, uid, username, nickname, source, token_key, token_secret, id=0):
+	def __init__(self, uid, username, screen, source, token_key, token_secret, id=0):
 		if id != 0: self.id = id
 		self.uid = uid
 		self.username = username
-		self.nickname = nickname
+		self.screen = screen
 		self.source = source
 		self.token_key = token_key
 		self.token_secret = token_secret

@@ -16,7 +16,7 @@ def heroes():
 
 @view.route('/<name>')
 def hero(name):
-	if session.get('uid', None) == None:
+	if not session.get('login',False):
 		return redirect(current_app.config['SERVER_PATH']+'oauth/?backurl=' + request.url)
 	
 	hero = Hero.query.filter(Hero.name == name).first() 
@@ -33,19 +33,17 @@ def hero(name):
 	
 @view.route('/msg/<hid>',methods=['POST','GET'])
 def hero_msgs(hid):
-	uid = session['uid']
-	api = sinaAPI(session['token'].key, session['token'].secret)
-	user = api.getUser_byId(uid)
+	user = session['user']
 	
 	if request.method=='POST':
 		content = request.form['content']
 		floor = Msg.query.filter(Msg.hid==hid).count()+1;
-		db.session.add(Msg(uid, hid,floor, content))
+		db.session.add(Msg(user.uid, hid,floor, content))
 		db.session.commit()
 		
 		if(request.form['send_sina']=='true'):
 			hero = Hero.query.filter(Hero.id == hid).first()
-			tweet  = "@"+user.screen_name.encode('utf8')
+			tweet  = "@"+user.screen.encode('utf8')
 			tweet += " 对DOTA英雄 "+hero.namecn.encode('utf8')+" 评论："
 			tweet += content.encode('utf8')
 			tweet += " http://dotabook.info"
@@ -61,7 +59,7 @@ def hero_msgs(hid):
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		obj['uid'] = msg.uid
-		obj['screen'] = user.screen_name.encode('utf8')
+		obj['screen'] = user.screen.encode('utf8')
 		obj['profile_image'] = user.profile_image_url
 
 		ops = Msg_Operate.query.filter(Msg_Operate.mid==msg.id).all()
@@ -81,7 +79,7 @@ def hero_msgs(hid):
 def hero_msg_up(mid):
 	submit = False
 	if (request.method=='POST'):
-		uid = session['uid']
+		uid = session['user'].uid
 		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='up').count()
 		if op == 0:	
 			db.session.add(Msg_Operate(uid,mid,'up'))
@@ -96,7 +94,7 @@ def hero_msg_up(mid):
 def hero_msg_down(mid):
 	submit = False
 	if (request.method=='POST'):
-		uid = session['uid']
+		uid = session['user'].uid
 		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='down').count()
 		if op == 0:
 			db.session.add(Msg_Operate(uid,mid,'down'))
@@ -121,7 +119,7 @@ def hero_grade_sendTweet():
 
 @view.route('/grade/<hid>', methods=['GET', 'POST'])
 def hero_grade(hid):
-	uid = session['uid']
+	uid = session['user'].uid
 	if request.method == 'POST':
 		hero = Hero.query.filter(Hero.id == hid).first()
 		myGrades = Grade.query.filter(Grade.hid == hid).filter(Grade.uid == uid).all()
@@ -134,7 +132,7 @@ def hero_grade(hid):
 				if my.catalog == 'assist':my.score = request.form['assist'] 
 				db.session.merge(my)
 			db.session.commit()
-			tweet  = "@"+session['screen'].encode('utf8')
+			tweet  = "@"+session['user'].screen.encode('utf8')
 			tweet += " 给DOTA英雄 "+hero.namecn.encode('utf8')+" 打分，"
 			tweet += "gank:"+request.form['gank'].encode('utf8')+"分，"
 			tweet += "push:"+request.form['push'].encode('utf8')+"分，"
@@ -152,7 +150,7 @@ def hero_grade(hid):
 				db.session.add(Grade(uid, hid, request.form['defend'], 'defend')) 
 				db.session.commit()
 				
-				tweet  = "@"+session['screen'].encode('utf8')
+				tweet  = "@"+session['user'].screen.encode('utf8')
 				tweet += " 给DOTA英雄 "+hero.namecn.encode('utf8')+" 打分，"
 				tweet += "gank:"+request.form['gank'].encode('utf8')+"分，"
 				tweet += "push:"+request.form['push'].encode('utf8')+"分，"

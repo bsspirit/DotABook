@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from weibopy.auth import OAuthHandler, API
+from db.create_sina import Sina_User
 
 consumer_key = '2967452232'
 consumer_secret = '0fb77c003faf71cc503751829f118057'
@@ -19,10 +20,10 @@ class sinaAPI():
 	
 	# user
 	def getUser_byScreen(self, screen):
-		return self.api.get_user(screen_name=screen)
+		return Sina_User(self.api.get_user(screen_name=screen))
 
 	def getUser_byId(self, uid):
-		return self.api.get_user(id=uid)
+		return Sina_User(self.api.get_user(id=uid))
 	
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ class Sina_User(db.Model):
 	verified = db.Column(db.String(1))
 	
 	def __init__(self, user):
-		self.uid=user.uid
+		self.uid=user.id
 		self.screen=user.screen_name
 		self.name=user.name
 		self.province=user.province
@@ -44,11 +44,11 @@ class Sina_User(db.Model):
 		self.fans_count=user.friends_count
 		self.tweet_count=user.statuses_count
 		self.favourite_count=user.favourites_count
-		self.create_at=user.create_at
+		self.create_at=user.created_at
 		self.verified=user.verified
 
 	def __repr__(self):
-		return '%s(%s)' % (self.screen_name, self.uid)
+		return '%s(%s)' % (self.screen, self.uid)
 
 class Sina_tweet(db.Model):
 	__tablename__ = 't_sina_tweet'
@@ -71,7 +71,7 @@ class Sina_tweet(db.Model):
 		self.thumbnail=tweet.thumbnail_pic
 		self.original=tweet.original_pic
 		self.source=tweet.source
-		self.create_at=tweet.create_at
+		self.create_at=tweet.created_at
 		self.retid=0
 		
 	def __repr__(self):
