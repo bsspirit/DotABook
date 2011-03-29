@@ -350,15 +350,15 @@ class Msg_Operate(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	uid = db.Column(db.BigInteger)
 	mid = db.Column(db.Integer)
-	action = db.Column(db.String(16))#repost,comment,up,down
-	content = db.Column(db.String(512))
+	action = db.Column(db.String(16))#repost,up,down
+	remid = db.Column(db.Integer)
 	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
 	
-	def __init__(self, uid, mid, action, content=None):
+	def __init__(self, uid, mid, action, remid=0):
 		self.uid = uid
 		self.mid = mid
 		self.action = action
-		if content != None:self.content = content
+		if remid != 0:self.remid = remid
 	
 	def __repr__(self):
 		return '%s(%s): %s' % (self.uid, self.mid, self.action) 		

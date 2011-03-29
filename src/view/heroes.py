@@ -78,7 +78,7 @@ def hero_msgs(hid):
 @view.route('/msg/up/<int:mid>',methods=['GET','POST'])
 def hero_msg_up(mid):
 	submit = False
-	if (request.method=='POST'):
+	if request.method=='POST':
 		uid = session['user'].uid
 		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='up').count()
 		if op == 0:	
@@ -93,7 +93,7 @@ def hero_msg_up(mid):
 @view.route('/msg/down/<int:mid>',methods=['GET','POST'])
 def hero_msg_down(mid):
 	submit = False
-	if (request.method=='POST'):
+	if request.method=='POST':
 		uid = session['user'].uid
 		op = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.uid==uid).filter(Msg_Operate.action=='down').count()
 		if op == 0:
@@ -105,6 +105,31 @@ def hero_msg_down(mid):
 	size = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.action=='down').count()
 	return jsonify(mid=mid,size=size,submit=submit)
 
+@view.route('/msg/repost/<int:mid>', methods=['GET','POST'])
+def hero_msg_repost(mid):
+	if request.method == 'POST':
+		user = session['user']
+		hid = request.form['hid']
+		content = request.form['content']
+		floor = Msg.query.filter(Msg.hid==hid).count()+1;
+		msg = Msg(user.uid, hid, floor, request.form['content'])
+		db.session.add(msg)
+		db.session.commit()
+		
+		db.session.add(Msg_Operate(user.uid,mid,'repost',msg.id))
+		db.session.commit()
+		
+		hero = Hero.query.filter(Hero.id == hid).first()
+		tweet  = "@"+user.screen.encode('utf8')
+		tweet += " 对DOTA英雄 "+hero.namecn.encode('utf8')+" 评论："
+		tweet += content.encode('utf8')
+		tweet += " http://dotabook.info"
+		api = sinaAPI(session['token'].key, session['token'].secret)
+		api.sendTweet(tweet)
+		
+	
+	size = Msg_Operate.query.filter(Msg_Operate.mid==mid).filter(Msg_Operate.action=='repost').count()
+	return jsonify(mid=mid,size=size)
 
 
 @view.route('/grade_send_tweet',methods=['POST'])
