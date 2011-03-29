@@ -33,11 +33,6 @@ def oauth_callback():
 	session['user'] = user
 	session['login'] = True
 	
-	tmp = ''
-	for a in session:
-		tmp += a+':'+str(session[a])+"\n"
-	current_app.logger.info(tmp)
-	
 	db_user = User.query.filter(User.uid==user.id).first()
 	if db_user == None:
 		db.session.add(User(user.id, user.name, user.screen, 'sina', session['token'].key, session['token'].secret))
