@@ -4,18 +4,14 @@ from view import heroes, items, rest, nav, maps
 from sina import oauth
 
 #SERVER_PATH='http://dotabook.info/'
-#STATIC_PATH='http://dotabook.info/static/'
-
+#STATIC_PATH='http://1.dotabook.sinaapp.com/static/'
 
 SERVER_PATH='http://localhost:5000/'
 STATIC_PATH='http://localhost/static/'
-#STATIC_PATH='http://1.dotabook.sinaapp.com/static/'
-
 
 app = Flask(__name__)
 app.debug = True
 app.config.from_object(__name__)
-#app.config.from_envvar('/home/conan/dotabook.cfg',silent=True)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 app.register_module(nav.view, url_prefix='')

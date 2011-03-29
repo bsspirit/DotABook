@@ -34,6 +34,9 @@ def hero(name):
 @view.route('/msg/<hid>',methods=['POST','GET'])
 def hero_msgs(hid):
 	uid = session['uid']
+	api = sinaAPI(session['token'].key, session['token'].secret)
+	user = api.getUser_byId(uid)
+	
 	if request.method=='POST':
 		content = request.form['content']
 		floor = Msg.query.filter(Msg.hid==hid).count()+1;
@@ -42,7 +45,7 @@ def hero_msgs(hid):
 		
 		if(request.form['send_sina']=='true'):
 			hero = Hero.query.filter(Hero.id == hid).first()
-			tweet  = "@"+session['screen'].encode('utf8')
+			tweet  = "@"+user.screen_name.encode('utf8')
 			tweet += " 对DOTA英雄 "+hero.namecn.encode('utf8')+" 评论："
 			tweet += content.encode('utf8')
 			tweet += " http://dotabook.info"
@@ -58,8 +61,8 @@ def hero_msgs(hid):
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		obj['uid'] = msg.uid
-		obj['screen'] = session['user'].screen_name.encode('utf8')
-		obj['profile_image'] = session['user'].profile_image_url
+		obj['screen'] = user.screen_name.encode('utf8')
+		obj['profile_image'] = user.profile_image_url
 
 		ops = Msg_Operate.query.filter(Msg_Operate.mid==msg.id).all()
 		ms_count = {'up':0,'down':0,'repost':0,'comment':0}
