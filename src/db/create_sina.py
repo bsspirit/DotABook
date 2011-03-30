@@ -21,11 +21,12 @@ class Sina_User(db.Model):
 	profile_image_url = db.Column(db.String(256))
 	domain = db.Column(db.String(64))
 	gender = db.Column(db.String(1))
-	followers_count = db.Column(db.Integer)
-	friends_count = db.Column(db.Integer)
-	statuses_count = db.Column(db.Integer)
-	favourites_count = db.Column(db.Integer)
+	follow_count = db.Column(db.Integer)
+	fans_count = db.Column(db.Integer)
+	tweet_count = db.Column(db.Integer)
+	favourite_count = db.Column(db.Integer)
 	create_at = db.Column(db.DateTime)
+	following = db.Column(db.String(16))
 	verified = db.Column(db.String(1))
 	
 	def __init__(self, user):
@@ -40,15 +41,35 @@ class Sina_User(db.Model):
 		self.profile_image_url=user.profile_image_url
 		self.domain=user.domain
 		self.gender=user.gender
-		self.follow_count=user.followers_count
-		self.fans_count=user.friends_count
+		self.follow_count=user.friends_count
+		self.fans_count=user.followers_count
 		self.tweet_count=user.statuses_count
 		self.favourite_count=user.favourites_count
+		self.following = user.following
 		self.create_at=user.created_at
 		self.verified=user.verified
 
 	def __repr__(self):
 		return '%s(%s)' % (self.screen, self.uid)
+		
+	def json(self):
+		obj = {'uid':self.uid, 'screen':self.screen, 'name':self.name}
+		obj['province']=self.province
+		obj['city']=self.city
+		obj['location']=self.location
+		obj['description']=self.description
+		obj['url']=self.url
+		obj['profile_image_url']=self.profile_image_url
+		obj['domain']=self.domain
+		obj['gender']=self.gender
+		obj['follow_count']=self.follow_count
+		obj['fans_count']=self.fans_count
+		obj['tweet_count']=self.tweet_count
+		obj['favourite_count']=self.favourite_count
+		obj['following']=self.following
+		obj['create_at']=str(self.create_at)
+		obj['verified']=self.verified
+		return obj
 
 class Sina_tweet(db.Model):
 	__tablename__ = 't_sina_tweet'

@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
-from flask import Module, current_app
+from flask import Module, current_app, session, jsonify
 from db.create import Hero, Hero_Attr, Hero_Image, Hero_Skill
 from db.create import Item, Item_Compound, Item_Skill
+from sina.sinaAPI import sinaAPI
 
 view = Module(__name__)
 
-@view.route('/hero/<hid>')
+@view.route('/user/<int:uid>')
+def user_id_json(uid):
+	api = sinaAPI(session['token'].key, session['token'].secret)
+	user = api.getUser_byId(uid)
+	return jsonify(user=user.json())
+
+@view.route('/hero/<int:hid>')
 def hero_all_json(hid):
-	#current_app.config['SERVER_PATH']
 	hero = Hero.query.filter(Hero.id == hid).first()
 	attr = Hero_Attr.query.filter(Hero_Attr.hid == hid).first()
 	skills = Hero_Skill.query.filter(Hero_Skill.hid == hid).all()
@@ -24,17 +30,17 @@ def hero_all_json(hid):
 	
 	return '{%s,%s,%s}' % (j_hero, j_attr, j_skills)
 
-@view.route('/hero/image/<hid>')
+@view.route('/hero/image/<int:hid>')
 def hero_image_json(hid):
-	image = Hero_Image.query.filter(Hero_Image.hid == int(hid)).first()
+	image = Hero_Image.query.filter(Hero_Image.hid == hid).first()
 	return image.json()
 
-@view.route('/hero/attr/<hid>')
+@view.route('/hero/attr/<int:hid>')
 def hero_attr_json(hid):
 	attr = Hero_Attr.query.filter(Hero_Attr.hid == hid).first()
 	return attr.json()	
 
-@view.route('/hero/skill/<hid>')
+@view.route('/hero/skill/<int:hid>')
 def hero_skill_json(hid):
 	skills = Hero_Skill.query.filter(Hero_Skill.hid == hid).all()
 	json = ''
