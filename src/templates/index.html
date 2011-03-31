@@ -27,16 +27,50 @@
 </div>
 
 <div class="r_content">
+	{% if login.login %}
 	<div class="login">
 		<div class="box">
 			<div class="box_header">
-				<h3>网站登陆&nbsp;&nbsp;&nbsp;<span class="info2 size10">(目前只支持新浪微博用户)<span></h3>
+				<h3>用户信息<span></h3>
+			</div>
+			<div class="box_content">
+				<div class="userinfo">
+					<div class="nc_l"> 
+						<a href="{{login.user.url}}" uid="{{login.user.uid}}" target="_blank">
+							<img src="{{login.user.profile_image_url}}" class="img50" uid="{{login.user.uid}}" title="{{login.user.screen}}"/>
+						</a>
+					</div>
+					<div class="nc_r">
+						<a href="{{login.user.url}}" uid="{{login.user.uid}}" target="_blank">{{login.user.screen}}</a>
+							{% if login.user.verified %}
+							<img src="http://1.dotabook.sinaapp.com/static/image/layout/v.gif" width="8"/>
+							{% endif %}
+						<br/>
+						{% if login.user.gender =='m' %}男{%else%}女{% endif%}&nbsp;&nbsp;{{login.user.location}}<br/>
+						<a href="{{login.user.url}}/follow" target="_blank">关注</a>&nbsp;{{login.user.follow_count}}&nbsp;&nbsp;
+						<a href="{{login.user.url}}/fans" target="_blank">粉丝</a>&nbsp;{{login.user.fans_count}}&nbsp;&nbsp;
+						<a href="{{login.user.url}}" target="_blank">微博</a>&nbsp;{{login.user.tweet_count}}<br/>
+					</div>
+					<div class="clear"></div>
+					<div class="nc_b">
+						简介：{{login.user.description}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% else %}
+	<div class="login">
+		<div class="box">
+			<div class="box_header">
+				<h3>网站登陆&nbsp;&nbsp;&nbsp;<span class="info2 size12">(目前只支持新浪微博用户)<span></h3>
 			</div>
 			<div class="box_content">
 				<a href="/oauth/?backurl={{SERVER}}"><img src="{{STATIC}}image/layout/sina_t_btn.png" height="25px"/>
 			</div>
 		</div>
 	</div>
+	{% endif %}
 	<div class="newer">
 		<div class="box">
 			<div class="box_header">
