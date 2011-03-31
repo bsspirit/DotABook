@@ -33,14 +33,15 @@ def oauth_callback():
 	session['user'] = user
 	session['login'] = True
 	
-	db_user = User.query.filter(User.uid==user.id).first()
+	db_user = User.query.filter(User.uid==user.uid).first()
 	if db_user == None:
-		db.session.add(User(user.id, user.name, user.screen, 'sina', session['token'].key, session['token'].secret))
+		db.session.add(User(user.uid, user.name, user.screen, 'sina', session['token'].key, session['token'].secret))
 	else:
 		db_user.username = user.name
 		db_user.nickname = user.screen
-		db.session.merge(db_user)
+		db.session.merge(db_user)	
 	db.session.commit()
+
 
 	backurl = current_app.config['SERVER_PATH']
 	if session.get('backurl', None) != None:

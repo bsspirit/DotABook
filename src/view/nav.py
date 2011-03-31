@@ -8,11 +8,10 @@ view = Module(__name__)
 @view.route('/')
 def index():
 	obj = {}
-	if session.get('user',False):
+	if session.get('login',False):
 		obj['user'] = session['user']
 		obj['login']= session['login']
-		
-		url = 'hhttp://t.sina.com.cn/'+str(session['user'].uid)
+		url = 'http://t.sina.com.cn/'+str(session['user'].uid)
 		obj['user'].url = url
 		
 	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'], SERVER=current_app.config['SERVER_PATH'], login=obj)

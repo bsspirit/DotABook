@@ -1,9 +1,7 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
 import datetime
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
+from create import app
 
 db = SQLAlchemy(app)
 
@@ -27,7 +25,7 @@ class Sina_User(db.Model):
 	favourite_count = db.Column(db.Integer)
 	create_at = db.Column(db.DateTime)
 	following = db.Column(db.String(16))
-	verified = db.Column(db.String(1))
+	verified = db.Column(db.Integer)
 	
 	def __init__(self, user):
 		self.uid=user.id
@@ -47,10 +45,30 @@ class Sina_User(db.Model):
 		self.favourite_count=user.favourites_count
 		self.following = user.following
 		self.create_at=user.created_at
-		self.verified=user.verified
+		self.verified= (lambda x:1 if x else 0)(user.verified)
 
 	def __repr__(self):
 		return '%s(%s)' % (self.screen, self.uid)
+		
+	def setSame(self,same):
+		self.uid=same.uid
+		self.screen=same.screen
+		self.name=same.name
+		self.province=same.province
+		self.city=same.city
+		self.location=same.location
+		self.description=same.description
+		self.url=same.url
+		self.profile_image_url=same.profile_image_url
+		self.domain=same.domain
+		self.gender=same.gender
+		self.follow_count=same.follow_count
+		self.fans_count=same.fans_count
+		self.tweet_count=same.tweet_count
+		self.favourite_count=same.favourite_count
+		self.following = same.following
+		self.create_at=same.create_at
+		self.verified=same.verified
 		
 	def json(self):
 		obj = {'uid':self.uid, 'screen':self.screen, 'name':self.name}

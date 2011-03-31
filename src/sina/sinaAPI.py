@@ -1,9 +1,25 @@
 # -*- coding: utf-8 -*-
+from flask import current_app
 from weibopy.auth import OAuthHandler, API
-from db.create_sina import Sina_User
+from db.create_sina import db,Sina_User
 
 consumer_key = '2967452232'
 consumer_secret = '0fb77c003faf71cc503751829f118057'
+
+def save_sina_user(user, uid=None, screen=None):
+	db_user=None
+	if uid == None:
+		db_user = Sina_User.query.filter(Sina_User.screen==screen).first()
+	else:
+		db_user = Sina_User.query.filter(Sina_User.uid==uid).first()
+	
+	if db_user == None:
+		db.session.add(user)
+	else:
+		db_user.setSame(user)
+		db.session.merge(db_user)
+		db.session.flush()
+	db.session.commit()
 
 class sinaAPI():
 	def __init__(self, token, tokenSecret):
@@ -20,10 +36,15 @@ class sinaAPI():
 	
 	# user
 	def getUser_byScreen(self, screen):
-		return Sina_User(self.api.get_user(screen_name=screen))
+		sina_user = Sina_User(self.api.get_user(screen_name=screen))
+		current_app.logger.info(sina_user.verified)
+		save_sina_user(user=sina_user,screen=screen)
+		return sina_user
 
 	def getUser_byId(self, uid):
-		return Sina_User(self.api.get_user(id=uid))
+		sina_user = Sina_User(self.api.get_user(id=uid))
+		save_sina_user(user=sina_user,uid=uid)	
+		return sina_user
 	
 
 if __name__ == '__main__':
