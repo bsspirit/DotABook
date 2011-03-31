@@ -7,15 +7,23 @@ view = Module(__name__)
 
 @view.route('/')
 def index():
-	obj = {'login':False}
+	obj = {}
 	if session.get('user',False):
 		obj['user'] = session['user']
-		obj['login']=True
+		obj['login']= session['login']
 		
 		url = 'hhttp://t.sina.com.cn/'+str(session['user'].uid)
 		obj['user'].url = url
 		
 	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'], SERVER=current_app.config['SERVER_PATH'], login=obj)
+
+@view.route('/logout')
+def logout():
+	session.pop('login')
+	session.pop('backurl')
+	session.pop('user')
+	session.pop('token')
+	return redirect(url_for('index'))
 
 @view.route('/contact')
 def contact():
