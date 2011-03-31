@@ -6,36 +6,30 @@
 {% block content %}
 	<script type="text/javascript">
 		$(document).ready(function(){		
-			$('#items .img45').each(function(){
+			$('#items .img38').each(function(){
 				var iid = $(this).attr("value");
 				$(this).qtip({
 					content: items[iid],
-					style: {
-						name: 'dark',
-						border: { 
-							width: 1
-						},
-						width:252
-					}					
+					style: {name: 'dark',border: {width: 1},width:252}					
 				});
 			});
 		})
 	</script>	
-	
-	<div class='category'>
-		<ul>
-			<li><a href="/heroes">英雄列表</a></li>
-			<li><a href="/items">物品列表</a></li>
-			<li><a href="/maps">地图下载</a></li>
-		</ul>
+
+<div class="l_content">
+	<div class="intro">
+		<div class="box">
+			<div class="box_header">
+				<h3>物品资料</h3>
+			</div>
+			<div class="box_content">
+				<div id="items">
+				{% for item in items %}
+					<img value="{{item.id}}" class="img38" src="{{STATIC}}image/items/38/{{item.picture}}"/>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="clear"></div>
-	
-	<h3>物品列表</h3>
-	<div id="items">
-	{% for item in items %}
-		<img value="{{item.id}}" class="img45" src="{{STATIC}}image/items/38/{{item.picture}}"/>
-	{% endfor %}
-	</div>
-	
+</div>	
 {% endblock%}

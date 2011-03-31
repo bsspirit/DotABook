@@ -1,17 +1,85 @@
 {% extends "layout.html" %}
 {% block title %}DotA Book|首页{% endblock %}
 {% block content %}
-	<div class="left">
-		<h1>DotA Book是一个DOTA的资料库，记录一些DOTA(<span style="color:red">6.71b</span>)英雄及物品装备的资料。</h1>
-		<h2>由个人开发，准备做成新浪微博的应用程序。</h2>
-		<p>目前处于测试阶段，有很多不完善的地方，我每天都会进步的。请大给我留言
-		<a href="javascript:void(0);" uid="1999250817" namecard2="true">@Conan_Z</a><br/>
-		</p>
-		<p><a href="/about">查看每日更新</a></p>
-		<p>&nbsp;</p>
-		<a href="/oauth/?backurl={{SERVER}}heroes"><img src="{{STATIC}}/image/sina/48.png"/></a>
+<div class="l_content">
+	<div class="intro">
+		<div class="box">
+			<div class="box_header">
+				<h3>网站介绍</h3>
+			</div>
+			<div class="box_content">
+				DotA Book是一个DOTA的资料库，记录DOTA(<span class="info2">6.71b</span>)英雄及物品装备的资料。由个人开发，做成新浪微博的应用程序。
+				目前处于测试阶段，有很多不完善的地方，我每天都会进步的。请大给我留言@Conan_Z
+			</div>
+		</div>
 	</div>
-	<div class="right">
-		<img id="monitor" src="{{STATIC}}image/layout/monitor.jpg" width="375" height="370"/>
+	<div class="comment">
+		<div class="box">
+			<div class="box_header">
+				<h3>玩家评论</h3>
+			</div>
+			<div class="box_content">
+				增加用户名片功能
+				重新设计网站UI
+			</div>
+		</div>
 	</div>
+</div>
+
+<div class="r_content">
+	<div class="login">
+		<div class="box">
+			<div class="box_header">
+				<h3>网站登陆&nbsp;&nbsp;&nbsp;<span class="info2 size10">(目前只支持新浪微博用户)<span></h3>
+			</div>
+			<div class="box_content">
+				<img src="{{STATIC}}image/layout/sina_t_btn.png" height="25px"/>
+			</div>
+		</div>
+	</div>
+	<div class="newer">
+		<div class="box">
+			<div class="box_header">
+				<h3>新加入用户</h3>
+			</div>
+			<div class="box_content">
+				<div class="user_head_list">
+					<ul>
+						<li>
+							<div class="user_head">
+								<div class="t_pic">
+									<a href="#"><img class="img45" src="{{STATIC}}image/layout/user.jpg"/></a>
+								</div>
+								<div class="m_name">
+									<a href="">Conan_Z</a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="user_head">
+								<div class="t_pic">
+									<a href="#"><img class="img45" src="{{STATIC}}image/layout/user.jpg"/></a>
+								</div>
+								<div class="m_name">
+									<a href="">Conan_Z</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="daily">
+		<div class="box">
+			<div class="box_header">
+				<h3>每天都在进步</h3>
+			</div>
+			<div class="box_content">
+				2011年3月31日 -- 界面整体改版
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock%}
