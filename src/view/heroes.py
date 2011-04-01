@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Module, render_template, request, jsonify, session, redirect, current_app
 from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Level, Grade, Item, Msg, Msg_Operate
+from db.create_sina import Sina_User
 from sina.sinaAPI import sinaAPI
 import util.mydate as mydate
 
@@ -59,8 +60,10 @@ def hero_msgs(hid):
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		obj['uid'] = msg.uid
-		obj['screen'] = user.screen.encode('utf8')
-		obj['profile_image'] = user.profile_image_url
+		
+		sina_user = Sina_User.query.filter(Sina_User.uid==msg.uid).first()
+		obj['screen'] = sina_user.screen.encode('utf8')
+		obj['profile_image'] = sina_user.profile_image_url
 
 		ops = Msg_Operate.query.filter(Msg_Operate.mid==msg.id).all()
 		ms_count = {'up':0,'down':0,'repost':0,'comment':0}
