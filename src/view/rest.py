@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Module, current_app, session, jsonify
 from db.create import Hero, Hero_Attr, Hero_Image, Hero_Skill,Item, Item_Compound, Item_Skill, User
+from db.create_sina import Sina_User
 from sina.sinaAPI import sinaAPI
 
 view = Module(__name__)
@@ -13,8 +14,12 @@ def user_id_json(uid):
 	
 @view.route('/user/newer/<int:num>')
 def user_newer(num):
-	#users = User.query.order_by(User.id.desc()).limit(8)
-	pass
+	users = Sina_User.query.order_by(Sina_User.id.desc()).limit(num).all()
+	user_arr = []
+	for user in users:
+		user_arr.append(user.json())
+		
+	return jsonify(users=user_arr)	
 
 
 @view.route('/hero/<int:hid>')

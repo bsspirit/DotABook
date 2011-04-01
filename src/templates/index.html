@@ -85,31 +85,7 @@
 				<div class="clear"></div>
 			</div>
 			<div class="box_content">
-				<div class="user_head_list">
-					<ul>
-						<li>
-							<div class="user_head">
-								<div class="t_pic">
-									<a href="#"><img class="img45" src="{{STATIC}}image/layout/user.jpg"/></a>
-								</div>
-								<div class="m_name">
-									<a href="">Conan_Z</a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="user_head">
-								<div class="t_pic">
-									<a href="#"><img class="img45" src="{{STATIC}}image/layout/user.jpg"/></a>
-								</div>
-								<div class="m_name">
-									<a href="">Conan_Z</a>
-								</div>
-							</div>
-						</li>
-					</ul>
-					<div class="clear"></div>
-				</div>
+				<div class="user_head_list"></div>
 			</div>
 		</div>
 	</div>
@@ -126,3 +102,28 @@
 	</div>
 </div>
 {% endblock%}
+
+{% block foot %}
+<script type="text/javascript">
+	$.getJSON('/rest/user/newer/8',function(res){
+		var users = res.users;
+		html  = '<ul>'
+		for(var i=0;i<users.length;i++){
+			html += '<li>'
+			html += '<div class="user_head">'
+			html += '<div class="t_pic">'
+			html += '<a href="javascript:void(0);"><img class="img45" src="'+users[i].profile_image_url+'"></a>' 
+			html += '</div>'
+			html += '<div class="m_name">'
+			html += '<a href="javascript:void(0);">'+users[i].screen+'</a>'
+			html += '</div>'
+			html += '</div>'
+			html += '</li>'
+		}
+		html += '</ul>'
+		html += '<div class="clear"></div>'
+		
+		$('.user_head_list').html(html);
+	})
+</script>
+{% endblock %}
