@@ -1,6 +1,6 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
-import datetime
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
@@ -259,7 +259,7 @@ class User(db.Model):
 	source = db.Column(db.String(32))
 	token_key = db.Column(db.String(64))
 	token_secret = db.Column(db.String(64))
-	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	create_date = db.Column(db.DateTime, default=datetime.now())
 	
 	def __init__(self, uid, username, nickname, source, token_key, token_secret, id=0):
 		if id != 0: self.id = id
@@ -280,7 +280,7 @@ class Grade(db.Model):
 	hid = db.Column(db.Integer)
 	score = db.Column(db.Float)
 	catalog = db.Column(db.String(32))#dps,pull,gank,assist,defend
-	create_date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
+	create_date = db.Column(db.DateTime(timezone=True), default=datetime.now())
 	
 	def __init__(self, uid, hid, score, catalog, id=0):
 		if id != 0: self.id = id
@@ -333,7 +333,7 @@ class Msg(db.Model):
 	hid = db.Column(db.Integer)
 	floor = db.Column(db.Integer)
 	content = db.Column(db.String(512))
-	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	create_date = db.Column(db.DateTime, default=datetime.now())
 	
 	def __init__(self, uid, hid, floor, content):
 		self.uid = uid
@@ -351,7 +351,7 @@ class Msg_Operate(db.Model):
 	mid = db.Column(db.Integer)
 	action = db.Column(db.String(16))#repost,up,down
 	remid = db.Column(db.Integer)
-	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	create_date = db.Column(db.DateTime, default=datetime.now())
 	
 	def __init__(self, uid, mid, action, remid=0):
 		self.uid = uid
@@ -368,7 +368,7 @@ class Upgrade(db.Model):
 	datetag = db.Column(db.Integer)
 	title = db.Column(db.String(16))
 	description = db.Column(db.String(256))
-	create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+	create_date = db.Column(db.DateTime, default=datetime.now())
 	
 	def __init__(self, datetag, title, desc):
 		self.datetag = datetag
@@ -379,7 +379,8 @@ class Upgrade(db.Model):
 		return '%s: %s' % (self.datetag, self.title)
 		
 	def json(self):
-		date = datetime.strftime(datetime.strptime(self.datetag,'%Y%m%d'),'%Y-%m-%d')
+		d1 = datetime.strptime(str(self.datetag),'%Y%m%d')
+		date = datetime.strftime(d1,'%Y-%m-%d')
 		obj = {'datetag':date, 'title':self.title}
 		return obj
 
