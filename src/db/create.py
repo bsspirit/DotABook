@@ -1,6 +1,5 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
-import util.mydate as mydate
 import datetime
 
 app = Flask(__name__)
@@ -380,7 +379,8 @@ class Upgrade(db.Model):
 		return '%s: %s' % (self.datetag, self.title)
 		
 	def json(self):
-		obj = {'datetag':mydate.toString5(mydate.toTime4(self.datetag)), 'title':self.title}
+		date = datetime.strftime(datetime.strptime(self.datetag,'%Y%m%d'),'%Y-%m-%d')
+		obj = {'datetag':date, 'title':self.title}
 		return obj
 
 if __name__ == '__main__':
