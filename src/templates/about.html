@@ -21,15 +21,25 @@
 				<div class="clear"></div>
 			</div>
 			<div class="box_content">
-				<div class="upgrade">
-					<ul>
-						{% for up in upgrade.up %}
-						<li>{{up.title}}</li>
-						{% endfor %}
-					</ul>
-				</div>
+				<div class="upgrade"></div>
 			</div>
 		</div>
 	</div>
 </div>
 {% endblock%}
+
+{% block foot %}
+<script type="text/javascript">	
+	$.getJSON('/rest/upgrade/0',function(res){
+		var ups = res.upgrades;
+		html  = '<ul>'
+		for(var i=0;i<ups.length;i++){
+			html += '<li>'
+			html += ups[i].datetag+'&nbsp;&nbsp;'+ups[i].title
+			html += '</li>'
+		}
+		html += '</ul>'
+		$('.upgrade').html(html);
+	})
+</script>
+{% endblock %}
