@@ -32,6 +32,11 @@ def oauth_callback():
 	user = api.getUser_byScreen(o.get_username())
 	session['user'] = user
 	session['login'] = True
+
+	session['admin'] = False
+	if user.uid==1999250817:
+		session['admin'] = True
+
 	
 	db_user = User.query.filter(User.uid==user.uid).first()
 	if db_user == None:

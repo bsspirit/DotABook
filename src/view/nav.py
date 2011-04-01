@@ -11,8 +11,8 @@ def index():
 	if session.get('login',False):
 		obj['user'] = session['user']
 		obj['login']= session['login']
-		url = 'http://t.sina.com.cn/'+str(session['user'].uid)
-		obj['user'].url = url
+		obj['admin'] = session['admin']
+		obj['user'].url = 'http://t.sina.com.cn/'+str(session['user'].uid)
 		
 	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'], SERVER=current_app.config['SERVER_PATH'], login=obj)
 

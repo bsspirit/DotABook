@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}DotA Book|后台管理系统:每日更新管理{% endblock %}
+{% block content %}
+<div class="l_content">
+	<div class="intro">
+		<div class="box">
+			<div class="box_header">
+				<div class="title">每日更新管理</div>
+				<div class="clear"></div>
+			</div>
+			<div class="box_content">
+				<form method="POST" action="/admin/upgrade">
+					<p>日期：<input type="text" name="datetag"/></p>
+					<p>主题：<input type="text" name="title"/></p>
+					<p>描述：<textarea name="description" col="3"></textarea></p>
+					<p><input type="submit" value="提交"/></p>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="daily">
+		<div class="box">
+			<div class="box_header">
+				<div class="title">每天都在进步</div>
+				<div class="clear"></div>
+			</div>
+			<div class="box_content">
+				<div class="upgrade"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="r_content">
+	<div class="daily">
+		<div class="box">
+			<div class="box_header">
+				<div class="title">管理员功能列表</div>
+				<div class="clear"></div>
+			</div>
+			<div class="box_content">
+				<a href="/admin">管理员首页</a><br/>
+				<a href="/admin/upgrade">每日更新管理</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock%}
+
+{% block foot %}
+<script type="text/javascript">	
+	$.getJSON('/rest/upgrade/0',function(res){
+		var ups = res.upgrades;
+		html  = '<ul>'
+		for(var i=0;i<ups.length;i++){
+			html += '<li>'
+			html += ups[i].datetag+'&nbsp;&nbsp;'+ups[i].title
+			html += '</li>'
+		}
+		html += '</ul>'
+		$('.upgrade').html(html);
+	})
+</script>
+{% endblock %}

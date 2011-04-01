@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
-from view import heroes, items, rest, nav, maps
+from view import heroes, items, rest, nav, maps, admin
 from sina import oauth
 
 #SERVER_PATH='http://dotabook.info/'
@@ -20,6 +20,7 @@ app.register_module(heroes.view, url_prefix='/heroes')
 app.register_module(items.view, url_prefix='/items')
 app.register_module(rest.view, url_prefix='/rest')
 app.register_module(maps.view, url_prefix='/maps')
+app.register_module(admin.view, url_prefix='/admin')
 
 
 if __name__ == '__main__':
