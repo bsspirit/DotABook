@@ -1,10 +1,10 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
+import util.mydate as mydate
 import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dotabook:dota@localhost/dotabook'
-
 
 db = SQLAlchemy(app)
 
@@ -378,6 +378,10 @@ class Upgrade(db.Model):
 	
 	def __repr__(self):
 		return '%s: %s' % (self.datetag, self.title)
+		
+	def json(self):
+		obj = {'datetag':mydate.toString5(mydate.toTime4(self.datetag)), 'title':self.title}
+		return obj
 
 if __name__ == '__main__':
 	db.drop_all()

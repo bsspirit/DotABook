@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import Module, current_app, session, jsonify
-from db.create import Hero, Hero_Attr, Hero_Image, Hero_Skill,Item, Item_Compound, Item_Skill, User
+from db.create import Hero, Hero_Attr, Hero_Image, Hero_Skill,Item, Item_Compound, Item_Skill, User, Upgrade
 from db.create_sina import Sina_User
+import util.mydate as mydate
 from sina.sinaAPI import sinaAPI
 
 view = Module(__name__)
@@ -18,9 +19,18 @@ def user_newer(num):
 	user_arr = []
 	for user in users:
 		user_arr.append(user.json())
-		
 	return jsonify(users=user_arr)	
 
+@view.route('/upgrade/<int:date>')
+def upgrade(date):
+	if date == 0:
+		date = mydate.toInt(mydate.now())
+		
+	upgs = Upgrade.query.filter(Upgrade.datetag<=date).order_by(Upgrade.id.desc()).limit(5).all()
+	upg_arr = []
+	for up in upgs:
+		upg_arr.append(up.json())
+	return jsonify(upgrades=upg_arr)
 
 @view.route('/hero/<int:hid>')
 def hero_all_json(hid):

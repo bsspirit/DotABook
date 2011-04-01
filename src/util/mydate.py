@@ -5,6 +5,7 @@ F1 = '%Y-%m-%d %H:%M:%S'
 F2 = '%Y-%m-%d %H:%M'
 F3 = '%Y年%m月%d日'
 F4 = '%Y%m%d'
+F5 = '%Y-%m-%d'
 
 
 def now():
@@ -29,10 +30,13 @@ def toString2(date):
 	return datetime.strftime(date,F2)
 	
 def toString3(date):
-	return datetime.strftime(date,F2)
+	return datetime.strftime(date,F3)
 	
 def toInt(date):
 	return datetime.strftime(date,F4)
+
+def toString5(date):
+	return datetime.strftime(date,F5)
 
 def toTime1(date):
 	return datetime.strptime(date,F1)
@@ -45,6 +49,9 @@ def toTime3(date):
 
 def toTime4(date):
 	return datetime.strptime(str(date),F4)
+	
+def toTime5(date):
+	return datetime.strptime(date,F5)
 
 if __name__ == '__main__':
 	print now()

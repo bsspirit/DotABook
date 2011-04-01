@@ -96,7 +96,7 @@
 				<div class="clear"></div>
 			</div>
 			<div class="box_content">
-				2011年3月31日 -- 界面整体改版
+				<div class="upgrade"></div>
 			</div>
 		</div>
 	</div>
@@ -122,8 +122,19 @@
 		}
 		html += '</ul>'
 		html += '<div class="clear"></div>'
-		
 		$('.user_head_list').html(html);
+	})
+	
+	$.getJSON('/rest/upgrade/0',function(res){
+		var ups = res.upgrades;
+		html  = '<ul>'
+		for(var i=0;i<ups.length;i++){
+			html += '<li>'
+			html += ups[i].datetag+'&nbsp;&nbsp;'+ups[i].title
+			html += '</li>'
+		}
+		html += '</ul>'
+		$('.upgrade').html(html);
 	})
 </script>
 {% endblock %}
