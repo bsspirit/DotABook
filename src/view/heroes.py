@@ -10,10 +10,18 @@ view = Module(__name__)
 @view.route('/')
 def heroes():
 	heroes = Hero.query.all()
+	images = Hero_Image.query.all()
+	attrs = Hero_Attr.query.all();
+	
 	h_images = {}
+	h_attrs = {}
 	for hero in heroes:
-		h_images[hero.id] = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
-	return render_template('hero/heroes.html', heroes=heroes, images=h_images, STATIC=current_app.config['STATIC_PATH'])
+		for img in images:
+			if img.hid == hero.id: h_images[hero.id] = img
+		for attr in attrs:
+			if attr.hid == hero.id: h_attrs[hero.id] = attr
+		
+	return render_template('hero/heroes.html', heroes=heroes, images=h_images,attrs=h_attrs, STATIC=current_app.config['STATIC_PATH'])
 
 @view.route('/<int:hid>')
 def hero(hid):
