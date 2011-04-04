@@ -26,7 +26,7 @@
 			<div class="box_content">
 				<div id="heroes">
 				{% for hero in heroes %}
-					<a href="/heroes/{{ hero.name }}"><img value="{{hero.id}}" class="img45" src="{{STATIC}}image/portrait/45/{{images[hero.id].image45}}"/></a>
+					<a href="/heroes/{{ hero.id }}"><img value="{{hero.id}}" class="img45" src="{{STATIC}}image/portrait/45/{{images[hero.id].image45}}"/></a>
 				{% endfor %}
 				</div>
 			</div>

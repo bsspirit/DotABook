@@ -15,12 +15,12 @@ def heroes():
 		h_images[hero.id] = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
 	return render_template('hero/heroes.html', heroes=heroes, images=h_images, STATIC=current_app.config['STATIC_PATH'])
 
-@view.route('/<name>')
-def hero(name):
+@view.route('/<int:hid>')
+def hero(hid):
 	if not session.get('login',False):
 		return redirect(current_app.config['SERVER_PATH']+'oauth/?backurl=' + request.url)
 	
-	hero = Hero.query.filter(Hero.name == name).first() 
+	hero = Hero.query.filter(Hero.id == hid).first() 
 	image = Hero_Image.query.filter(Hero_Image.hid == hero.id).first()
 	attr = Hero_Attr.query.filter(Hero_Attr.hid == hero.id).first()
 	skills = Hero_Skill.query.filter(Hero_Skill.hid == hero.id).all()
@@ -42,6 +42,9 @@ def hero_msgs():
 	for msg in msgs_page.items:
 		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
 		obj['uid'] = msg.uid
+		
+		hero = Hero.query.filter(Hero.id == msg.hid).first()
+		obj['hnamecn'] = hero.namecn
 		
 		sina_user = Sina_User.query.filter(Sina_User.uid==msg.uid).first()
 		obj['screen'] = sina_user.screen.encode('utf8')
