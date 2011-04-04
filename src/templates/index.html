@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}DotA Book|首页{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-ui-1.8.11.custom.css"></link>
+<script src="{{STATIC}}js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+<script src="{{STATIC}}js/jquery-msg-conan-1.1.js" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
 <div class="l_content">
 	<div class="intro">
@@ -19,25 +24,24 @@
 	<div class="comment">
 		<div class="box">
 			<div class="box_header">
-				<div class="title">玩家评论</div>
+				<div class="title">玩家留言</div>
 				<div class="clear"></div>
 			</div>
 			<div class="box_content">
-				增加用户名片功能
-				重新设计网站UI
+				<div id="msgs" class="msgs" login='{{session.login}}'></div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="r_content">
-	{% if login.login %}
+	{% if session.login %}
 	<div class="login">
 		<div class="box">
 			<div class="box_header">
 				<div class="title">用户信息</div>
 				<div class="btn">
-					{% if login.admin %}
+					{% if session.admin %}
 					<a href="/admin">管理员</a>&nbsp;|&nbsp;
 					{% endif %}
 					<a href="/logout">退出</a>
@@ -47,24 +51,24 @@
 			<div class="box_content">
 				<div class="userinfo">
 					<div class="nc_l"> 
-						<a href="{{login.user.url}}" uid="{{login.user.uid}}" target="_blank">
-							<img src="{{login.user.profile_image_url}}" class="img50" uid="{{login.user.uid}}" title="{{login.user.screen}}"/>
+						<a href="{{session.user.url}}" uid="{{session.user.uid}}" target="_blank">
+							<img src="{{session.user.profile_image_url}}" class="img50" uid="{{session.user.uid}}" title="{{session.user.screen}}"/>
 						</a>
 					</div>
 					<div class="nc_r">
-						<a href="{{login.user.url}}" uid="{{login.user.uid}}" target="_blank">{{login.user.screen}}</a>
-							{% if login.user.verified == 1 %}
+						<a href="{{session.user.url}}" uid="{{session.user.uid}}" target="_blank">{{session.user.screen}}</a>
+							{% if session.user.verified == 1 %}
 							<img src="http://1.dotabook.sinaapp.com/static/image/layout/v.gif" width="8"/>
 							{% endif %}
 						<br/>
-						{% if login.user.gender =='m' %}男{%else%}女{% endif%}&nbsp;&nbsp;{{login.user.location}}<br/>
-						<a href="{{login.user.url}}/follow" target="_blank">关注</a>&nbsp;{{login.user.follow_count}}&nbsp;&nbsp;
-						<a href="{{login.user.url}}/fans" target="_blank">粉丝</a>&nbsp;{{login.user.fans_count}}&nbsp;&nbsp;
-						<a href="{{login.user.url}}" target="_blank">微博</a>&nbsp;{{login.user.tweet_count}}<br/>
+						{% if session.user.gender =='m' %}男{%else%}女{% endif%}&nbsp;&nbsp;{{session.user.location}}<br/>
+						<a href="{{session.user.url}}/follow" target="_blank">关注</a>&nbsp;{{session.user.follow_count}}&nbsp;&nbsp;
+						<a href="{{session.user.url}}/fans" target="_blank">粉丝</a>&nbsp;{{session.user.fans_count}}&nbsp;&nbsp;
+						<a href="{{session.user.url}}" target="_blank">微博</a>&nbsp;{{session.user.tweet_count}}<br/>
 					</div>
 					<div class="clear"></div>
 					<div class="nc_b">
-						简介：{{login.user.description}}
+						简介：{{session.user.description}}
 					</div>
 				</div>
 			</div>

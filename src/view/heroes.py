@@ -31,9 +31,36 @@ def hero(name):
 		levels[skill.id] = level 
 		
 	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
+
+@view.route('/msgs/',methods=['POST','GET'])
+def hero_msgs():
+	page = int(request.args.get('p','1'))
+	count = 10
+	msgs_page = Msg.query.order_by(Msg.id.desc()).paginate(page,count)
 	
+	objs = []
+	for msg in msgs_page.items:
+		obj = {'hid':msg.hid,'mid':msg.id,'content':msg.content.encode('utf8'),'floor':msg.floor,'date':mydate.toString2(msg.create_date).encode('utf8')} 
+		obj['uid'] = msg.uid
+		
+		sina_user = Sina_User.query.filter(Sina_User.uid==msg.uid).first()
+		obj['screen'] = sina_user.screen.encode('utf8')
+		obj['profile_image'] = sina_user.profile_image_url
+
+		ops = Msg_Operate.query.filter(Msg_Operate.mid==msg.id).all()
+		ms_count = {'up':0,'down':0,'repost':0,'comment':0}
+		for op in ops:
+			if op.action=='up':ms_count['up']+=1
+			elif op.action=='down':ms_count['down']+=1
+			elif op.action=='repost':ms_count['repost']+=1
+			elif op.action=='comment':ms_count['comment']+=1
+			
+		obj['count']=ms_count	
+		objs.append(obj)
+	return jsonify(msgs=objs,count=count,total=msgs_page.total, page=page)
+
 @view.route('/msg/<hid>',methods=['POST','GET'])
-def hero_msgs(hid):
+def hero_msg(hid):
 	user = session['user']
 	
 	if request.method=='POST':
