@@ -46,6 +46,18 @@ def hero_msgs():
 		hero = Hero.query.filter(Hero.id == msg.hid).first()
 		obj['hnamecn'] = hero.namecn
 		
+		myGrades = Grade.query.filter(Grade.hid == msg.hid).filter(Grade.uid == msg.uid).all()
+		if len(myGrades) > 0:
+			obj['grade']=True
+			for my in myGrades:
+				if my.catalog == 'gank':obj['grade.gank']=my.score
+				elif my.catalog == 'push':obj['grade.push']=my.score
+				elif my.catalog == 'dps':obj['grade.dps']=my.score
+				elif my.catalog == 'defend':obj['grade.defend']=my.score
+				elif my.catalog == 'assist':obj['grade.assist']=my.score
+		else :
+			obj['grade']=False
+		
 		sina_user = Sina_User.query.filter(Sina_User.uid==msg.uid).first()
 		obj['screen'] = sina_user.screen.encode('utf8')
 		obj['profile_image'] = sina_user.profile_image_url
