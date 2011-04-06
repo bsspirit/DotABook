@@ -102,7 +102,9 @@ if __name__ == '__main__':
 	api = sinaAPI('ee7fb33c9ab706122a881a8a00ff9fab', 'a65cf2c36d34810cb8073bd72e039659')
 	
 	#timeline
-	since_id = Sina_Tweet.query.order_by(Sina_Tweet.create_at.desc()).first().tid
+	since_id=0
+	sina_tweet = Sina_Tweet.query.order_by(Sina_Tweet.create_at.desc()).first()
+	if sina_tweet!=None:since_id=sina_tweet.tid
 	print since_id
 	
 	ts,us = api.getFriendsLine(since_id)
