@@ -754,7 +754,7 @@ class API(object):
         if file_type is None:
             raise WeibopError('Could not determine file type')
         file_type = file_type[0]
-        if file_type not in ['image/gif', 'image/jpeg', 'image/png']:
+        if file_type not in ['image/gif', 'image/jpeg', 'image/png','image/x-png','image/pjpeg']:#
             raise WeibopError('Invalid file type for image: %s' % file_type)
 
         # build the mulitpart-formdata body
@@ -804,7 +804,7 @@ class API(object):
         # build headers
         headers = {
             'Content-Type': 'multipart/form-data; boundary=Tw3ePy',
-            'Content-Length': len(body)
+            'Content-Length': str(len(body))
         }
 
         return headers, body

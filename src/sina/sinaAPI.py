@@ -34,6 +34,9 @@ class sinaAPI():
 	def sendTweet(self, tweet):
 		return self.api.update_status(status=tweet)
 	
+	def sendTweetImage(self,tweet,file):
+		return self.api.upload(filename=file, status=tweet)
+	
 	# user
 	def getUser_byScreen(self, screen):
 		sina_user = Sina_User(self.api.get_user(screen_name=screen))
