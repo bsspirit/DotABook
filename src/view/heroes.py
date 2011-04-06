@@ -4,6 +4,7 @@ from db.create import db, Hero, Hero_Attr, Hero_Image, Hero_Skill, Hero_Skill_Le
 from db.create_sina import Sina_User
 from sina.sinaAPI import sinaAPI
 import util.mydate as mydate
+import random
 
 view = Module(__name__)
 
@@ -100,7 +101,9 @@ def hero_msg(hid):
 			tweet += " http://dotabook.info"
 			
 			api = sinaAPI(session['token'].key, session['token'].secret)
-			api.sendTweet(tweet)
+			#api.sendTweet(tweet)
+			f = current_app.config['LOCAL_PATH']+'static/pic1/%s.jpg' % random.randint(1,200)
+			api.sendTweetImage(tweet,f)
 	
 	page = int(request.args.get('p','1'))
 	count = 10
@@ -190,7 +193,10 @@ def hero_grade_sendTweet():
 	tweet = session.get('grade_tweet')
 	api = sinaAPI(session['token'].key, session['token'].secret)
 	if tweet != None:
-		api.sendTweet(tweet)
+		f = current_app.config['LOCAL_PATH']+'static/pic1/%s.jpg' % random.randint(1,200)
+		current_app.logger.info(f)
+		api.sendTweetImage(tweet,f)
+		#api.sendTweet(tweet)
 	session.pop('grade_tweet',None)
 	return ''
 	

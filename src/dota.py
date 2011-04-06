@@ -5,9 +5,11 @@ from sina import oauth
 
 #SERVER_PATH='http://dotabook.info/'
 #STATIC_PATH='http://1.dotabook.sinaapp.com/static/'
+#LOCAL_PATH='/home/deploy/DotABook/'
 
 SERVER_PATH='http://localhost:5000/'
 STATIC_PATH='http://localhost/static/'
+LOCAL_PATH='/home/conan/workspace/app/DotABook/'
 
 app = Flask(__name__)
 app.debug = True
