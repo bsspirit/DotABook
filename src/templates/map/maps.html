@@ -13,22 +13,22 @@
 			<div class="box_content">
 				<div class="maps">
 					<ul class="tab">
-						<li style="width: 200px;">地图名称</li>
-						<li style="width: 120px;">版本</li>
-						<li style="width: 120px;">类型</li>
-						<li style="width: 120px;">地图下载</li>
+						<li style="width: 180px;">地图名称</li>
+						<li style="width: 110px;">版本</li>
+						<li style="width: 110px;">类型</li>
+						<li style="width: 110px;">地图下载</li>
 					</ul>
 					{% for map in maps %}
 					<ul class="line">
-						<li style="width: 200px;">{{map.namecn}}</li>
-						<li style="width: 120px;">{{map.version}}</li>
-						<li style="width: 120px;">
+						<li style="width: 180px;">{{map.namecn}}</li>
+						<li style="width: 110px;">{{map.version}}</li>
+						<li style="width: 110px;">
 							{% if map.category =='N' %} 正式版本
 							{% elif map.category == 'AI'%} AI版本
 							{% elif map.category == 'IMBA'%} IMBA版本
 							{% endif %}
 						</li>
-						<li style="width: 120px;"><a href="{{map.url}}">下载</a></li>
+						<li style="width: 110px;"><a href="{{map.url}}">下载</a></li>
 					</ul>
 					{% endfor %}
 				</div>
