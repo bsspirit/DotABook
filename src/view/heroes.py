@@ -40,6 +40,7 @@ def hero(hid):
 		levels[skill.id] = level 
 		
 	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
+	
 
 @view.route('/msgs/',methods=['POST','GET'])
 def hero_msgs():

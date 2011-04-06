@@ -27,6 +27,23 @@ class sinaAPI():
 		self.auth.setToken(token, tokenSecret)
 		self.api = API(self.auth)
 		
+	def setObj(self,obj):
+		self.obj = obj
+		
+	def getAttr(self,key):
+		try:
+			return self.obj.__getattribute__(key)
+		except Exception,e:
+			print e
+			return ''
+			
+	def getAttrValue(self,obj,key):
+		try:
+			return obj.__getattribute__(key)
+		except Exception,e:
+			print e
+			return ''
+		
 	# basic
 	def getTweet_ById(self, tid):
 		return self.api.get_status(id=tid)
@@ -40,7 +57,6 @@ class sinaAPI():
 	# user
 	def getUser_byScreen(self, screen):
 		sina_user = Sina_User(self.api.get_user(screen_name=screen))
-		current_app.logger.info(sina_user.verified)
 		save_sina_user(user=sina_user,screen=screen)
 		return sina_user
 

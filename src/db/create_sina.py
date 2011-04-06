@@ -1,6 +1,6 @@
 from flask import Flask
 from flaskext.sqlalchemy import SQLAlchemy
-import datetime
+from datetime import datetime
 from create import app
 
 db = SQLAlchemy(app)
@@ -89,7 +89,7 @@ class Sina_User(db.Model):
 		obj['verified']=self.verified
 		return obj
 
-class Sina_tweet(db.Model):
+class Sina_Tweet(db.Model):
 	__tablename__ = 't_sina_tweet'
 	id = db.Column(db.Integer, primary_key=True)
 	tid = db.Column(db.BigInteger, unique=True)
@@ -103,18 +103,52 @@ class Sina_tweet(db.Model):
 	retid = db.Column(db.BigInteger)
 	
 	def __init__(self,tweet):
-		self.tid=tweet.id
-		self.uid=tweet.user.id
+		obj = Attr(tweet)
+		user = Sina_User(obj.attr('user'))
+		
+		self.tid=obj.attr('id')
+		self.uid=user.uid
 		self.content=tweet.text
-		self.bmiddle=tweet.bmiddle_pic
-		self.thumbnail=tweet.thumbnail_pic
-		self.original=tweet.original_pic
-		self.source=tweet.source
+		self.bmiddle=obj.attr('bmiddle_pic')
+		self.thumbnail=obj.attr('thumbnail_pic')
+		self.original=obj.attr('original_pic')
+		self.source=obj.attr('source')
 		self.create_at=tweet.created_at
-		self.retid=0
+		if obj.attr('retid')!='':
+			self.retid=obj.attr('retid')
 		
 	def __repr__(self):
-		return '%s,%s' % (self.tid,self.content)
+		return '%s,%s' % (self.tid,self.uid)
+		
+class Sina_Tweet_Stat(db.Model):
+	__tablename__ = 't_sina_tweet_stat'
+	id = db.Column(db.Integer, primary_key=True)
+	tid = db.Column(db.BigInteger, unique=True)
+	favourite= db.Column(db.Integer)
+	repost= db.Column(db.Integer)
+	comment= db.Column(db.Integer)
+	create_at = db.Column(db.DateTime, default=datetime.now())
+	
+	def __init__(self,stat):
+		#self.tid=tweet.id
+		pass
+				
+		
+	def __repr__(self):
+		return '%s,%s' % (self.tid,self.favourite)
+
+
+#=========Util=============		
+class Attr():
+	def __init__(self,obj):
+		self.obj = obj
+		
+	def attr(self,key):
+		try:
+			return self.obj.__getattribute__(key)
+		except Exception,e:
+			#print e
+			return ''
 	
 
 if __name__ == '__main__':
