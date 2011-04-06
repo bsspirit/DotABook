@@ -26,7 +26,7 @@ def upgrade(date):
 	if date == 0:
 		date = mydate.toInt(mydate.now())
 		
-	upgs = Upgrade.query.filter(Upgrade.datetag<=date).order_by(Upgrade.datetag.desc()).limit(10).all()
+	upgs = Upgrade.query.filter(Upgrade.datetag<=date).order_by(Upgrade.datetag.desc()).limit(5).all()
 	upg_arr = []
 	for up in upgs:
 		upg_arr.append(up.json())
