@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}DotA Book|英雄列表{% endblock %}
 {% block head %}
-<script src="{{STATIC}}js/heroes.js" type="text/javascript"></script>
+<script src="{{session.path.STATIC}}js/heroes.js" type="text/javascript"></script>
 {% endblock %}
 {% block content %}
 <div class="l_content">
@@ -24,7 +24,7 @@
 					{% for hero in heroes %}
 					<div class="hero_pic" hid="{{hero.id}}" basic="{{attrs[hero.id].basic}}">
 						<a href="/heroes/{{ hero.id }}">
-							<img value="{{hero.id}}" class="img45" src="{{STATIC}}image/portrait/45/{{images[hero.id].image45}}"/>
+							<img value="{{hero.id}}" class="img45" src="{{session.path.STATIC}}image/portrait/45/{{images[hero.id].image45}}"/>
 						</a>
 					</div>
 					{% endfor %}

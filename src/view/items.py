@@ -7,4 +7,4 @@ view = Module(__name__)
 @view.route('/')
 def heroes():
 	items = Item.query.filter(Item.category!='R').all()
-	return render_template('item/items.html', items=items, STATIC=current_app.config['STATIC_PATH'])
+	return render_template('item/items.html', items=items)

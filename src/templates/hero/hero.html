@@ -1,18 +1,17 @@
 {% extends "layout.html" %}
 {% block title %}DotABook|{{hero.namecn}}{% endblock %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-grade-conan-1.0.css"></link>
-<link rel="stylesheet" type="text/css" href="{{STATIC}}css/jquery-ui-1.8.11.custom.css"></link>
-<script src="{{STATIC}}js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
-<script src="{{STATIC}}js/jquery-grade-conan-1.0.js" type="text/javascript"></script>
-<script src="{{STATIC}}js/jquery-msg-conan-1.0.js" type="text/javascript"></script>
-{% endblock %}
-
-{% block content %}
+<link rel="stylesheet" type="text/css" href="{{session.path.STATIC}}css/jquery-grade-conan-1.0.css"></link>
+<link rel="stylesheet" type="text/css" href="{{session.path.STATIC}}css/jquery-ui-1.8.11.custom.css"></link>
+<script src="{{session.path.STATIC}}js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+<script src="{{session.path.STATIC}}js/jquery-grade-conan-1.0.js" type="text/javascript"></script>
+<script src="{{session.path.STATIC}}js/jquery-msg-conan-1.0.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var hid = {{hero.id}};
 </script>
+{% endblock %}
 
+{% block content %}
 <div class="intro">
 	<div class="box">
 		<div class="box_header">
@@ -23,7 +22,7 @@
 			<div class="hero">
 				<div class="h_left">
 					<div class="h_left_img">
-						<img class="img64" src="{{STATIC}}image/portrait/64/{{image.image64}}"/>
+						<img class="img64" src="{{session.path.STATIC}}image/portrait/64/{{image.image64}}"/>
 					</div>
 					<div class="h_left_name">
 						<h3>{{hero.namecn}}</h3>{{hero.name}}
@@ -32,9 +31,9 @@
 						<li>
 							<label>力量</label><br/>
 							{% if attr.basic == 'S' %}
-								<img class="img47" src="{{STATIC}}image/basic/strength_2.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/strength_2.jpg"/>
 							{% else %}
-								<img class="img47" src="{{STATIC}}image/basic/strength_1.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/strength_1.jpg"/>
 							{% endif%}
 							<br/>
 							<span>{{attr.strength}}(+{{attr.goup_strength}})</span>
@@ -42,9 +41,9 @@
 						<li>
 							<label>敏捷</label><br/>
 							{% if attr.basic == 'A' %}
-								<img class="img47" src="{{STATIC}}image/basic/agility_2.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/agility_2.jpg"/>
 							{% else %}
-								<img class="img47" src="{{STATIC}}image/basic/agility_1.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/agility_1.jpg"/>
 							{% endif%}
 							<br/>
 							<span>{{attr.agility}}(+{{attr.goup_agility}})</span>				
@@ -52,9 +51,9 @@
 						<li>
 							<label>智力</label><br/>
 							{% if attr.basic == 'I' %}
-								<img class="img47" src="{{STATIC}}image/basic/intelligence_2.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/intelligence_2.jpg"/>
 							{% else %}
-								<img class="img47" src="{{STATIC}}image/basic/intelligence_1.jpg"/>
+								<img class="img47" src="{{session.path.STATIC}}image/basic/intelligence_1.jpg"/>
 							{% endif%}
 							<br/>
 							<span>{{attr.intelligence}}(+{{attr.goup_intelligence}})</span>	
@@ -62,7 +61,7 @@
 					</ul>
 				</div>
 				<div class="h_middle">
-					<img class="img120" src="{{STATIC}}image/portrait/comic/{{image.comic}}"/>
+					<img class="img120" src="{{session.path.STATIC}}image/portrait/comic/{{image.comic}}"/>
 				</div>
 				<div class="h_right">
 					<h3>基本属性</h3>
@@ -160,7 +159,7 @@
 						<div class="skill">
 							<h4>{{skill.namecn}}</h4>
 							<div class="s_img">
-								<img width="64" src="{{STATIC}}image/skill/{{skill.image}}"/>
+								<img width="64" src="{{session.path.STATIC}}image/skill/{{skill.image}}"/>
 							</div>
 							<div class="s_target">
 								<ul>

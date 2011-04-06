@@ -5,16 +5,20 @@ import util.mydate as mydate
 
 view = Module(__name__)
 
-@view.route('/')
+@view.route('/home')
 def index():
-	obj = {}
-	session['login']=session.get('login',False)
-	session['admin']=session.get('admin',False)
-	return render_template('index.html',STATIC=current_app.config['STATIC_PATH'], SERVER=current_app.config['SERVER_PATH'])
+	if session.get('path',False):
+		redirect(url_for('init_session'))
+
+#	tweets = Sina_Tweet.query.order_by(Sina_Tweet.id.desc()).all()
+#	ts = [t.json() for t in tweets]
+	
+	return render_template('index.html')
 
 @view.route('/logout')
 def logout():
-	session.pop('login')
+	session['login']=False
+	session['admin']=False
 	session.pop('backurl')
 	session.pop('user')
 	session.pop('token')
@@ -22,11 +26,22 @@ def logout():
 
 @view.route('/contact')
 def contact():
-	return render_template('contact.html',STATIC=current_app.config['STATIC_PATH'])
+	return render_template('contact.html')
 	
 @view.route('/about')
 def about():
-	upgrade = {'today':mydate.toString2(mydate.yesterday()).decode('utf8')}
-	upgrade['up'] = Upgrade.query.filter(Upgrade.datetag==mydate.toInt(mydate.yesterday())).all()
-	return render_template('about.html',STATIC=current_app.config['STATIC_PATH'],upgrade=upgrade)
-
+	return render_template('about.html')
+	
+@view.route('/')
+def init_session():
+	if session.get('path',False):
+		session['login']=session.get('login',False)
+		session['admin']=session.get('admin',False)
+	
+		path = {}
+		path['STATIC'] = current_app.config['STATIC_PATH']
+		path['SERVER'] = current_app.config['SERVER_PATH']
+		path['LOCAL'] = current_app.config['LOCAL_PATH']
+		session['path']=path
+	
+	return redirect(url_for('index'))	

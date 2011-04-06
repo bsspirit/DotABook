@@ -22,7 +22,7 @@ def heroes():
 		for attr in attrs:
 			if attr.hid == hero.id: h_attrs[hero.id] = attr
 		
-	return render_template('hero/heroes.html', heroes=heroes, images=h_images,attrs=h_attrs, STATIC=current_app.config['STATIC_PATH'])
+	return render_template('hero/heroes.html', heroes=heroes, images=h_images,attrs=h_attrs)
 
 @view.route('/<int:hid>')
 def hero(hid):
@@ -39,7 +39,7 @@ def hero(hid):
 		level = Hero_Skill_Level.query.filter(Hero_Skill_Level.sid == skill.id).all()
 		levels[skill.id] = level 
 		
-	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image,STATIC=current_app.config['STATIC_PATH'])
+	return render_template('hero/hero.html', hero=hero, attr=attr, skills=skills, levels=levels, image=image)
 	
 
 @view.route('/msgs/',methods=['POST','GET'])
@@ -195,7 +195,6 @@ def hero_grade_sendTweet():
 	api = sinaAPI(session['token'].key, session['token'].secret)
 	if tweet != None:
 		f = current_app.config['LOCAL_PATH']+'static/pic1/%s.jpg' % random.randint(1,200)
-		current_app.logger.info(f)
 		api.sendTweetImage(tweet,f)
 		#api.sendTweet(tweet)
 	session.pop('grade_tweet',None)

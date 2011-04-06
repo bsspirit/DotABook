@@ -120,6 +120,16 @@ class Sina_Tweet(db.Model):
 	def __repr__(self):
 		return '%s,%s' % (self.tid,self.uid)
 		
+	def json(self):
+		obj = {'tid':self.tid, 'uid':self.uid, 'content':self.content}
+		obj['bmiddle']=self.bmiddle
+		obj['thumbnail']=self.thumbnail
+		obj['original']=self.original
+		obj['source']=self.source
+		obj['create_at']=str(self.create_at)
+		obj['retid']=self.retid
+		return obj
+		
 class Sina_Tweet_Stat(db.Model):
 	__tablename__ = 't_sina_tweet_stat'
 	id = db.Column(db.Integer, primary_key=True)
