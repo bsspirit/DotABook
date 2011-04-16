@@ -38,7 +38,7 @@
 								{% if tweet.retid %}
 								<div class="r-msg-repost">
 									<a href="http://t.sina.com.cn/{{retweets[tweet.retid].uid}}" target="_blank">
-										<span class="info2">{{users[retweets[tweet.retid].uid].screen}}</span>
+										<span class="info2">{{retweets[tweet.retid].uid}}</span>
 									</a>
 									:&nbsp;{{retweets[tweet.retid].content}}
 									{% if retweets[tweet.retid].thumbnail %}
