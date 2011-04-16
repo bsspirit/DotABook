@@ -53,7 +53,7 @@ class sinaAPI():
 		users=[]
 		
 		timelines={}
-		if since !=0:timelines = self.api.friends_timeline(since_id=since)
+		if since !=0:timelines = self.api.friends_timeline(since_id=since,count=50)
 		else:timelines = self.api.friends_timeline()
 		
 		for line in timelines:
