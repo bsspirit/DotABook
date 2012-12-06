@@ -1,0 +1,2 @@
+grant all on dotabook.* to dotabook@'%' identified by 'dota';
+grant all on dotabook.* to dotabook@localhost identified by 'dota';
